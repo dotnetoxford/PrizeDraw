@@ -53,7 +53,7 @@ namespace PrizeDraw
                 text.SetValue(Grid.ColumnProperty, n % vm.NumColumns);
                 text.Text = tile.Name;
 
-                TileGrid.Children.Add(rect);
+                TileGrid.Children.Insert(0, rect);
                 TileGrid.Children.Add(text);
 
                 n++;
