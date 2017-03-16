@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Shapes;
 using System.Windows.Media;
 using System;
+using PrizeDraw.Helpers;
 
 namespace PrizeDraw
 {
@@ -16,7 +17,8 @@ namespace PrizeDraw
         {
             InitializeComponent();
 
-            var vm = new MainWindowViewModel();
+            var tileProvider = new TestTileProvider();
+            var vm = new MainWindowViewModel(tileProvider);
 
             InitialiseGrid(vm);
 

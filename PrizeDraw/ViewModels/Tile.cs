@@ -2,7 +2,7 @@
 
 namespace PrizeDraw.ViewModels
 {
-    class Tile
+    public class Tile
     {
         public Color Color { get; internal set; }
     }
