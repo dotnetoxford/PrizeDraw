@@ -17,7 +17,7 @@ namespace PrizeDraw
         {
             InitializeComponent();
 
-            var tileProvider = new TestTileProvider();
+            var tileProvider = new AttendeeFileListTileProvider();
             var vm = new MainWindowViewModel(tileProvider);
 
             InitialiseGrid(vm);
@@ -44,13 +44,17 @@ namespace PrizeDraw
             foreach (var tile in vm.Tiles)
             {
                 var rect = new Rectangle();
-
                 rect.SetValue(Grid.RowProperty, n / vm.NumColumns);
                 rect.SetValue(Grid.ColumnProperty, n % vm.NumColumns);
-
                 rect.Fill = new SolidColorBrush(tile.Color);
 
+                var text = new TextBlock();
+                text.SetValue(Grid.RowProperty, n / vm.NumColumns);
+                text.SetValue(Grid.ColumnProperty, n % vm.NumColumns);
+                text.Text = tile.Name;
+
                 TileGrid.Children.Add(rect);
+                TileGrid.Children.Add(text);
 
                 n++;
             }

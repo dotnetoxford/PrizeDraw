@@ -71,6 +71,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Helpers\ITileProvider.cs" />
+    <Compile Include="Helpers\AttendeeFileListTileProvider.cs" />
     <Compile Include="Helpers\TestTileProvider.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\Tile.cs" />

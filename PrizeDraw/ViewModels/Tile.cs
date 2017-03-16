@@ -4,6 +4,7 @@ namespace PrizeDraw.ViewModels
 {
     public class Tile
     {
-        public Color Color { get; internal set; }
+        public string Name { get; set; }
+        public Color Color { get; set; }
     }
 }
