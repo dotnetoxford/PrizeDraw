@@ -5,6 +5,7 @@ using System.Windows.Shapes;
 using System.Windows.Media;
 using System;
 using PrizeDraw.Helpers;
+using System.Windows.Input;
 
 namespace PrizeDraw
 {
@@ -22,7 +23,22 @@ namespace PrizeDraw
 
             InitialiseGrid(vm);
 
+            KeyDown += new KeyEventHandler(MainWindow_KeyDown);
+
             DataContext = vm;
+        }
+
+        void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+            {
+                var vm = DataContext as MainWindowViewModel;
+
+                if(vm != null)
+                {
+                    vm.StartNextMode();
+                }
+            }
         }
 
         private void InitialiseGrid(MainWindowViewModel vm)
