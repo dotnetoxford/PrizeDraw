@@ -13,7 +13,7 @@ namespace PrizeDraw.Helpers
         {
             var rand = new Random();
 
-            return File.ReadAllLines(@"c:\dump\dotnetoxford-attendies.txt")
+            return File.ReadAllLines(@"TestData\TestAttendeeData.txt")
                             .Where(x => !string.IsNullOrWhiteSpace(x))
                             .OrderBy(x => x)
                             .Select((x, n) => new Tile
