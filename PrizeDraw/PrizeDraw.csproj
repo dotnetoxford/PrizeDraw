@@ -73,6 +73,9 @@
     <Compile Include="Helpers\ITileProvider.cs" />
     <Compile Include="Helpers\AttendeeFileListTileProvider.cs" />
     <Compile Include="Helpers\TestTileProvider.cs" />
+    <Compile Include="TileUserControl.xaml.cs">
+      <DependentUpon>TileUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\Tile.cs" />
     <Page Include="MainWindow.xaml">
@@ -87,6 +90,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="TileUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

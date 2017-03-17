@@ -59,18 +59,11 @@ namespace PrizeDraw
 
             foreach (var tile in vm.Tiles)
             {
-                var rect = new Rectangle();
-                rect.SetValue(Grid.RowProperty, n / vm.NumColumns);
-                rect.SetValue(Grid.ColumnProperty, n % vm.NumColumns);
-                rect.Fill = new SolidColorBrush(tile.Color);
+                var ucTile = new TileUserControl(tile.Name, tile.Color);
+                ucTile.SetValue(Grid.RowProperty, n / vm.NumColumns);
+                ucTile.SetValue(Grid.ColumnProperty, n % vm.NumColumns);
 
-                var text = new TextBlock();
-                text.SetValue(Grid.RowProperty, n / vm.NumColumns);
-                text.SetValue(Grid.ColumnProperty, n % vm.NumColumns);
-                text.Text = tile.Name;
-
-                TileGrid.Children.Insert(0, rect);
-                TileGrid.Children.Add(text);
+                TileGrid.Children.Insert(0, ucTile);
 
                 n++;
             }
