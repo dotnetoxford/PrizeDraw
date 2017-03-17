@@ -7,5 +7,9 @@
              Background="{Binding BackgroundColor}"
              d:DesignHeight="300" d:DesignWidth="300"
              DataContext="{Binding RelativeSource={RelativeSource Self}}">
-    <TextBlock Text="{Binding Text}" />
+    <TextBlock
+        Text="{Binding Text}"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        FontSize="16" />
 </UserControl>
