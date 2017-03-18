@@ -9,20 +9,20 @@ namespace PrizeDraw.Helpers
 {
     public class AttendeeFileListTileProvider : ITileProvider
     {
-        public List<Tile> GetTiles()
+        public List<TileViewModel> GetTiles()
         {
             var rand = new Random();
 
             return File.ReadAllLines(@"TestData\TestAttendeeData.txt")
                             .Where(x => !string.IsNullOrWhiteSpace(x))
                             .OrderBy(x => x)
-                            .Select((x, n) => new Tile
+                            .Select((x, n) => new TileViewModel
                             {
                                 Name = x,
-                                Color = Color.FromRgb(
+                                Color = new SolidColorBrush(Color.FromRgb(
                                     (byte)rand.Next(0, 256),
                                     (byte)rand.Next(0, 256),
-                                    (byte)rand.Next(0, 256))
+                                    (byte)rand.Next(0, 256)))
                             }).ToList();
         }
     }

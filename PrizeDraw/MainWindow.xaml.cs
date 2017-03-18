@@ -57,7 +57,7 @@ namespace PrizeDraw
 
             foreach (var tile in vm.Tiles)
             {
-                var ucTile = new TileUserControl(tile.Name, tile.Color);
+                var ucTile = new TileUserControl(tile);
                 ucTile.SetValue(Grid.RowProperty, n / vm.NumColumns);
                 ucTile.SetValue(Grid.ColumnProperty, n % vm.NumColumns);
 

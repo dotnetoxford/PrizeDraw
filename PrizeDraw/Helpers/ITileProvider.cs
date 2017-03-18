@@ -5,6 +5,6 @@ namespace PrizeDraw.Helpers
 {
     public interface ITileProvider
     {
-        List<Tile> GetTiles();
+        List<TileViewModel> GetTiles();
     }
 }

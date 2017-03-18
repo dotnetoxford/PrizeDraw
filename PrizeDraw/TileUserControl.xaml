@@ -4,11 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             Background="{Binding BackgroundColor}"
-             d:DesignHeight="300" d:DesignWidth="300"
-             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+             Background="{Binding Color}"
+             d:DesignHeight="300" d:DesignWidth="300">
     <TextBlock
-        Text="{Binding Text}"
+        Text="{Binding Name}"
         HorizontalAlignment="Center"
         VerticalAlignment="Center"
         FontSize="16" />

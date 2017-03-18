@@ -17,7 +17,7 @@ namespace PrizeDraw.ViewModels
 
         private static readonly TimeSpan ShuffleInterval = TimeSpan.FromMilliseconds(100);
 
-        public List<Tile> Tiles { get; set; }
+        public List<TileViewModel> Tiles { get; set; }
         public int NumColumns { get; set; }
 
         private int _selectionTileRowIndex = 0;
@@ -47,7 +47,7 @@ namespace PrizeDraw.ViewModels
 
         public bool EnableSelectionTile => Mode != ModeEnum.Idle;
 
-        private Timer _timer;
+        private readonly Timer _timer;
         private DateTimeOffset _slowdownStartTime;
 
         public MainWindowViewModel(ITileProvider tileProvider)

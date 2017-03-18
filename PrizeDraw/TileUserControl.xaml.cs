@@ -1,5 +1,5 @@
 ﻿using System.Windows.Controls;
-using System.Windows.Media;
+using PrizeDraw.ViewModels;
 
 namespace PrizeDraw
 {
@@ -8,13 +8,9 @@ namespace PrizeDraw
     /// </summary>
     public partial class TileUserControl : UserControl
     {
-        public string Text { get; private set; }
-        public SolidColorBrush BackgroundColor { get; private set; }
-
-        public TileUserControl(string text, Color backgroundColor)
+        public TileUserControl(TileViewModel viewModel)
         {
-            Text = text;
-            BackgroundColor = new SolidColorBrush(backgroundColor);
+            DataContext = viewModel;
 
             InitializeComponent();
         }
