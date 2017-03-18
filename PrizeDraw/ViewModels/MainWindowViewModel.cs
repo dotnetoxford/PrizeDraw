@@ -2,6 +2,7 @@
 using PrizeDraw.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Timers;
 
 namespace PrizeDraw.ViewModels
@@ -20,20 +21,6 @@ namespace PrizeDraw.ViewModels
         public List<TileViewModel> Tiles { get; set; }
         public int NumColumns { get; set; }
 
-        private int _selectionTileRowIndex = 0;
-        public int SelectionTileRowIndex
-        {
-            get { return _selectionTileRowIndex; }
-            set { Set(nameof(SelectionTileRowIndex), ref _selectionTileRowIndex, value); }
-        }
-
-        private int _selectionTileColumnIndex = 0;
-        public int SelectionTileColumnIndex
-        {
-            get { return _selectionTileColumnIndex; }
-            set { Set(nameof(SelectionTileColumnIndex), ref _selectionTileColumnIndex, value); }
-        }
-
         private ModeEnum _mode = ModeEnum.Idle;
         public ModeEnum Mode
         {
@@ -42,6 +29,25 @@ namespace PrizeDraw.ViewModels
             {
                 Set(nameof(Mode), ref _mode, value);
                 RaisePropertyChanged("EnableSelectionTile");
+            }
+        }
+
+        private TileViewModel _selectedTile;
+        public TileViewModel SelectedTile
+        {
+            get { return _selectedTile; }
+            set
+            {
+                Set(nameof(SelectedTile), ref _selectedTile, value);
+
+                var previousSelectedTile = Tiles.SingleOrDefault(x => x.IsSelected);
+
+                if (previousSelectedTile != null)
+                {
+                    previousSelectedTile.IsSelected = false;
+                }
+
+                SelectedTile.IsSelected = true;
             }
         }
 
@@ -94,8 +100,12 @@ namespace PrizeDraw.ViewModels
         {
             var rand = new Random();
             var numRows = (int)Math.Ceiling((decimal)Tiles.Count / NumColumns);
-            SelectionTileColumnIndex = rand.Next(0, NumColumns);
-            SelectionTileRowIndex = rand.Next(0, numRows);
+
+            var x = rand.Next(0, NumColumns);
+            var y = rand.Next(0, numRows);
+            var index = y * NumColumns + x;
+
+            SelectedTile = Tiles[index];
 
             _timer.Interval = GetCurrentTimerInterval();
         }
