@@ -4,11 +4,27 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             Background="{Binding Color}"
              d:DesignHeight="300" d:DesignWidth="300">
-    <TextBlock
-        Text="{Binding Name}"
-        HorizontalAlignment="Center"
-        VerticalAlignment="Center"
-        FontSize="16" />
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid Background="{Binding Color}" Visibility="{Binding IsNotSelected, Converter={StaticResource BoolToVisConverter}}">
+            <TextBlock
+                Visibility="{Binding IsNotSelected}"
+                Text="{Binding Name}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="16" />
+        </Grid>
+        <Grid Background="White" Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisConverter}}">
+            <TextBlock
+                Text="{Binding Name}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="16" />
+        </Grid>
+    </Grid>
 </UserControl>
