@@ -14,12 +14,18 @@ namespace PrizeDraw.ViewModels
             Idle,
             Shuffling,
             Slowdown,
+            WinnerSelected
         }
 
         private static readonly TimeSpan ShuffleInterval = TimeSpan.FromMilliseconds(100);
 
+        // When the slowdown interval exceeds this, we have a winner!
+        private static readonly TimeSpan MaxSlowdownInterval = TimeSpan.FromMilliseconds(1000);
+
         public List<TileViewModel> Tiles { get; set; }
         public int NumColumns { get; set; }
+
+        public event EventHandler<WinnerSelectedEventArgs> OnWinnerSelected;
 
         private ModeEnum _mode = ModeEnum.Idle;
         public ModeEnum Mode
@@ -108,6 +114,13 @@ namespace PrizeDraw.ViewModels
             SelectedTile = Tiles[index];
 
             _timer.Interval = GetCurrentTimerInterval();
+
+            if (_mode == ModeEnum.Slowdown && _timer.Interval > MaxSlowdownInterval.TotalMilliseconds)
+            {
+                _timer.Stop();
+                _mode = ModeEnum.WinnerSelected;
+                OnWinnerSelected?.Invoke(this, new WinnerSelectedEventArgs { WinningTile = SelectedTile, WinnerName = SelectedTile.Name });
+            }
         }
 
         private double GetCurrentTimerInterval()

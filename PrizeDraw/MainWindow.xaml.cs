@@ -2,8 +2,10 @@
 using System.Windows;
 using System.Windows.Controls;
 using System;
+using System.Linq;
 using PrizeDraw.Helpers;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 
 namespace PrizeDraw
 {
@@ -12,6 +14,9 @@ namespace PrizeDraw
     /// </summary>
     public partial class MainWindow : Window
     {
+        private const int WinnerTileTargetWidth = 800;
+        private const int WinnerTileTargetHeight = 500;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -21,9 +26,83 @@ namespace PrizeDraw
 
             InitialiseGrid(vm);
 
-            KeyDown += new KeyEventHandler(MainWindow_KeyDown);
+            KeyDown += MainWindow_KeyDown;
+            vm.OnWinnerSelected += OnWinnerSelected;
 
             DataContext = vm;
+        }
+
+        private void OnWinnerSelected(object sender, WinnerSelectedEventArgs eventArgs)
+        {
+            Application.Current.Dispatcher.Invoke(() => WinnerSelected(eventArgs.WinnerName));
+        }
+
+        private void WinnerSelected(string winnerName)
+        {
+            var selectedTileControl = (from t in TileGrid.Children.OfType<TileUserControl>()
+                                       where t.AttendeeName == winnerName
+                                       select t).Single();
+
+            InitializeAndBeginAnimation(selectedTileControl);
+        }
+
+        private void InitializeAndBeginAnimation(TileUserControl selectedTileControl)
+        {
+            var absoluteTilePosition = selectedTileControl.TransformToAncestor(this).Transform(new Point(0, 0));
+
+            SelectedTile.Width = selectedTileControl.ActualWidth;
+            SelectedTile.Height = selectedTileControl.ActualHeight;
+            Canvas.SetLeft(SelectedTile, absoluteTilePosition.X);
+            Canvas.SetTop(SelectedTile, absoluteTilePosition.Y);
+            SelectedTile.Visibility = Visibility.Visible;
+
+            var targetXPos = ActualWidth * 0.5d - WinnerTileTargetWidth * 0.5d;
+            var targetYPos = ActualHeight * 0.5d - WinnerTileTargetHeight * 0.5d;
+
+            var animWidth = new DoubleAnimation
+                       {
+                           From = SelectedTile.Width,
+                           To = 800,
+                           Duration = new Duration(TimeSpan.FromSeconds(2))
+                       };
+
+            var animHeight = new DoubleAnimation
+                       {
+                           From = SelectedTile.Height,
+                           To = 500,
+                           Duration = new Duration(TimeSpan.FromSeconds(2))
+                       };
+
+            var animXPos = new DoubleAnimation
+                       {
+                           From = absoluteTilePosition.X,
+                           To = targetXPos,
+                           Duration = new Duration(TimeSpan.FromSeconds(2))
+                       };
+
+            var animYPos = new DoubleAnimation
+                       {
+                           From = absoluteTilePosition.Y,
+                           To = targetYPos,
+                           Duration = new Duration(TimeSpan.FromSeconds(2))
+                       };
+
+            Storyboard.SetTarget(animWidth, SelectedTile);
+            Storyboard.SetTarget(animHeight, SelectedTile);
+            Storyboard.SetTarget(animXPos, SelectedTile);
+            Storyboard.SetTarget(animYPos, SelectedTile);
+            Storyboard.SetTargetProperty(animWidth, new PropertyPath(WidthProperty));
+            Storyboard.SetTargetProperty(animHeight, new PropertyPath(HeightProperty));
+            Storyboard.SetTargetProperty(animXPos, new PropertyPath(LeftProperty));
+            Storyboard.SetTargetProperty(animYPos, new PropertyPath(TopProperty));
+
+            var storyboard = new Storyboard();
+            storyboard.Children.Add(animWidth);
+            storyboard.Children.Add(animHeight);
+            storyboard.Children.Add(animXPos);
+            storyboard.Children.Add(animYPos);
+
+            storyboard.Begin(this);
         }
 
         void MainWindow_KeyDown(object sender, KeyEventArgs e)
@@ -32,10 +111,7 @@ namespace PrizeDraw
             {
                 var vm = DataContext as MainWindowViewModel;
 
-                if(vm != null)
-                {
-                    vm.StartNextMode();
-                }
+                vm?.StartNextMode();
             }
         }
 

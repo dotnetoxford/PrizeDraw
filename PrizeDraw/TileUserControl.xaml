@@ -20,7 +20,7 @@
                 FontSize="16" />
         </Grid>
         <Grid Background="White" Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisConverter}}">
-            <Border BorderThickness="5" BorderBrush="Black">
+            <Border BorderThickness="2" BorderBrush="Black">
                 <TextBlock
                     Text="{Binding Name}"
                     HorizontalAlignment="Center"

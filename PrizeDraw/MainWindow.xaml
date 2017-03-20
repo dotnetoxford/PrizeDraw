@@ -3,8 +3,25 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:prizeDraw="clr-namespace:PrizeDraw"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525" WindowStyle="None" WindowState="Maximized">
-    <Grid Name="TileGrid">
+
+    <Grid>
+        <Grid Name="TileGrid" />
+
+        <Canvas>
+            <prizeDraw:TileUserControl
+                x:Name="SelectedTile"
+                Visibility="Hidden"
+                Background="White"
+                BorderBrush="Black"
+                BorderThickness="2"
+                Canvas.Left="0"
+                Canvas.Top="0"
+                Width="200"
+                Height="200" />
+        </Canvas>
     </Grid>
+
 </Window>

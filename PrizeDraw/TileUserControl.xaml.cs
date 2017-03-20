@@ -8,9 +8,17 @@ namespace PrizeDraw
     /// </summary>
     public partial class TileUserControl : UserControl
     {
+        public string AttendeeName { get; set; }
+
+        public TileUserControl()
+        {
+        }
+
         public TileUserControl(TileViewModel viewModel)
         {
             DataContext = viewModel;
+
+            AttendeeName = viewModel.Name;
 
             InitializeComponent();
         }
