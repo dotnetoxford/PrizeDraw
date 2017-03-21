@@ -50,25 +50,30 @@ namespace PrizeDraw
         {
             var absoluteTilePosition = selectedTileControl.TransformToAncestor(this).Transform(new Point(0, 0));
 
-            SelectedTile.Width = selectedTileControl.ActualWidth;
-            SelectedTile.Height = selectedTileControl.ActualHeight;
-            Canvas.SetLeft(SelectedTile, absoluteTilePosition.X);
-            Canvas.SetTop(SelectedTile, absoluteTilePosition.Y);
-            SelectedTile.Visibility = Visibility.Visible;
+            var tileViewModel = selectedTileControl.DataContext as TileViewModel;
+
+            var selectedTile = new TileUserControl(tileViewModel)
+                               {
+                                   Width = selectedTileControl.ActualWidth,
+                                   Height = selectedTileControl.ActualHeight
+                               };
+
+            Canvas.SetLeft(selectedTile, absoluteTilePosition.X);
+            Canvas.SetTop(selectedTile, absoluteTilePosition.Y);
 
             var targetXPos = ActualWidth * 0.5d - WinnerTileTargetWidth * 0.5d;
             var targetYPos = ActualHeight * 0.5d - WinnerTileTargetHeight * 0.5d;
 
             var animWidth = new DoubleAnimation
                        {
-                           From = SelectedTile.Width,
+                           From = selectedTile.Width,
                            To = 800,
                            Duration = new Duration(TimeSpan.FromSeconds(2))
                        };
 
             var animHeight = new DoubleAnimation
                        {
-                           From = SelectedTile.Height,
+                           From = selectedTile.Height,
                            To = 500,
                            Duration = new Duration(TimeSpan.FromSeconds(2))
                        };
@@ -87,10 +92,10 @@ namespace PrizeDraw
                            Duration = new Duration(TimeSpan.FromSeconds(2))
                        };
 
-            Storyboard.SetTarget(animWidth, SelectedTile);
-            Storyboard.SetTarget(animHeight, SelectedTile);
-            Storyboard.SetTarget(animXPos, SelectedTile);
-            Storyboard.SetTarget(animYPos, SelectedTile);
+            Storyboard.SetTarget(animWidth, selectedTile);
+            Storyboard.SetTarget(animHeight, selectedTile);
+            Storyboard.SetTarget(animXPos, selectedTile);
+            Storyboard.SetTarget(animYPos, selectedTile);
             Storyboard.SetTargetProperty(animWidth, new PropertyPath(WidthProperty));
             Storyboard.SetTargetProperty(animHeight, new PropertyPath(HeightProperty));
             Storyboard.SetTargetProperty(animXPos, new PropertyPath(LeftProperty));
@@ -101,6 +106,8 @@ namespace PrizeDraw
             storyboard.Children.Add(animHeight);
             storyboard.Children.Add(animXPos);
             storyboard.Children.Add(animYPos);
+
+            Canvas.Children.Add(selectedTile);
 
             storyboard.Begin(this);
         }

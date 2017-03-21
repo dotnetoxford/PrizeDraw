@@ -10,10 +10,6 @@ namespace PrizeDraw
     {
         public string AttendeeName { get; set; }
 
-        public TileUserControl()
-        {
-        }
-
         public TileUserControl(TileViewModel viewModel)
         {
             DataContext = viewModel;
