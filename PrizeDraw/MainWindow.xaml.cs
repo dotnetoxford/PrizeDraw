@@ -114,11 +114,26 @@ namespace PrizeDraw
 
         void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Space)
+            switch (e.Key)
             {
-                var vm = DataContext as MainWindowViewModel;
+                case Key.Space:
+                {
+                    var vm = DataContext as MainWindowViewModel;
+                    vm?.StartNextMode();
+                    break;
+                }
+                case Key.Escape:
+                {
+                    var vm = DataContext as MainWindowViewModel;
+                    vm?.Restart();
 
-                vm?.StartNextMode();
+                    while (Canvas.Children.Count > 0)
+                    {
+                        Canvas.Children.Remove(Canvas.Children[0]);
+                    }
+
+                    break;
+                }
             }
         }
 

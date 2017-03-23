@@ -138,5 +138,18 @@ namespace PrizeDraw.ViewModels
 
             throw new NotSupportedException($"Unhandled mode: {_mode}");
         }
+
+        public void Restart()
+        {
+            _mode = ModeEnum.Idle;
+            _timer.Stop();
+
+            var selectedTile = Tiles.FirstOrDefault(x => x.IsSelected);
+
+            if (selectedTile != null)
+            {
+                selectedTile.IsSelected = false;
+            }
+        }
     }
 }
