@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
+        Background="Black"
         Title="MainWindow" Height="350" Width="525" WindowStyle="None" WindowState="Maximized">
-
     <Grid>
         <Grid Name="TileGrid" />
         <Canvas Name="Canvas" />
