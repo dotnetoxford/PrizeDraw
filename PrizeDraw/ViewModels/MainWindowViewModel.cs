@@ -57,14 +57,17 @@ namespace PrizeDraw.ViewModels
             }
         }
 
-        public bool EnableSelectionTile => Mode != ModeEnum.Idle;
-
         private readonly Timer _timer;
         private DateTimeOffset _slowdownStartTime;
 
         public MainWindowViewModel(ITileProvider tileProvider)
         {
             Tiles = tileProvider.GetTiles();
+
+            // Randomly shuffle the list
+            var rnd = new Random();
+            Tiles = Tiles.OrderBy(item => rnd.Next()).ToList();
+
             NumColumns = (int)(Math.Sqrt(Tiles.Count) + 0.5);
 
             _timer = new Timer();
