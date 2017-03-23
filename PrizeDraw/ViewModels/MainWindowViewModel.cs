@@ -105,13 +105,10 @@ namespace PrizeDraw.ViewModels
         private void HandleTimer()
         {
             var rand = new Random();
-            var numRows = (int)Math.Ceiling((decimal)Tiles.Count / NumColumns);
 
-            var x = rand.Next(0, NumColumns);
-            var y = rand.Next(0, numRows);
-            var index = y * NumColumns + x;
+            var randomTileIndex = rand.Next(0, Tiles.Count);
 
-            SelectedTile = Tiles[index];
+            SelectedTile = Tiles[randomTileIndex];
 
             _timer.Interval = GetCurrentTimerInterval();
 
