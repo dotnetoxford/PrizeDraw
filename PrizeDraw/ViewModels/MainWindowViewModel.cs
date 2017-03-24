@@ -107,6 +107,14 @@ namespace PrizeDraw.ViewModels
 
         private void HandleTimer()
         {
+            if (_mode == ModeEnum.Slowdown && _timer.Interval > MaxSlowdownInterval.TotalMilliseconds) // Winning tile!
+            {
+                _timer.Stop();
+                _mode = ModeEnum.WinnerSelected;
+                OnWinnerSelected?.Invoke(this, new WinnerSelectedEventArgs { WinningTile = SelectedTile, WinnerName = SelectedTile.Name });
+                return;
+            }
+
             var rand = new Random();
 
             var randomTileIndex = rand.Next(0, Tiles.Count);
@@ -114,13 +122,6 @@ namespace PrizeDraw.ViewModels
             SelectedTile = Tiles[randomTileIndex];
 
             _timer.Interval = GetCurrentTimerInterval();
-
-            if (_mode == ModeEnum.Slowdown && _timer.Interval > MaxSlowdownInterval.TotalMilliseconds)
-            {
-                _timer.Stop();
-                _mode = ModeEnum.WinnerSelected;
-                OnWinnerSelected?.Invoke(this, new WinnerSelectedEventArgs { WinningTile = SelectedTile, WinnerName = SelectedTile.Name });
-            }
         }
 
         private double GetCurrentTimerInterval()
