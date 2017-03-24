@@ -19,6 +19,12 @@ namespace PrizeDraw.ViewModels
 
         private static readonly TimeSpan ShuffleInterval = TimeSpan.FromMilliseconds(100);
 
+        /// <summary>
+        /// If this value is 1.0, the timer interval will decrease by the number of seconds passed since
+        /// the start of the slowdown. If it's 0.5, then it'll slowdown at half the speed, etc.
+        /// </summary>
+        private static readonly double SlowdownTimeCoefficient = 0.25;
+
         // When the slowdown interval exceeds this, we have a winner!
         private static readonly TimeSpan MaxSlowdownInterval = TimeSpan.FromMilliseconds(1000);
 
@@ -132,7 +138,7 @@ namespace PrizeDraw.ViewModels
                 case ModeEnum.Shuffling: { return ShuffleInterval.TotalMilliseconds; }
                 case ModeEnum.Slowdown:
                 {
-                    var ms = (DateTime.UtcNow - _slowdownStartTime).TotalMilliseconds;
+                    var ms = (DateTime.UtcNow - _slowdownStartTime).TotalMilliseconds * SlowdownTimeCoefficient;
                     return Math.Max(ShuffleInterval.TotalMilliseconds, ms);
                 }
             }
