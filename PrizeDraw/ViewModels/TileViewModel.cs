@@ -7,7 +7,10 @@ namespace PrizeDraw.ViewModels
     {
         public string Name { get; set; }
         public int AttendeeId { get; set; }
-        public string Image { get; set; }
+        public string ImageUri { get; set; }
+        public string LocalImageFileName { get; set; }
+
+        public string Image => LocalImageFileName ?? ImageUri ?? @"Images\NoPhoto.png";
 
         private bool _isSelected;
         public bool IsSelected

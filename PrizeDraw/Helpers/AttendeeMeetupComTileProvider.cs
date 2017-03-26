@@ -41,7 +41,7 @@ namespace PrizeDraw.Helpers
                 {
                     Name = x.member.name,
                     AttendeeId = x.member.id,
-                    Image = x.member.photo?.highres_link ?? x.member.photo?.photo_link,
+                    ImageUri = x.member.photo?.highres_link ?? x.member.photo?.photo_link,
                     // Bias the randomized colours so it's more purple, and less chance of
                     // a white conflicting with the selected tile. Longer term, this needs
                     // to be made more configurable.
@@ -52,8 +52,14 @@ namespace PrizeDraw.Helpers
                 }).ToList();
             }
         }
+
+        public Task SaveTilesAsync(List<TileViewModel> tiles)
+        {
+            throw new NotSupportedException();
+        }
     }
 
+    //(todo) Tidy up these classes (as they were just pasted from json)
     public class Class1
     {
         public long created { get; set; }

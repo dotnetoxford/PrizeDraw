@@ -25,7 +25,7 @@ namespace PrizeDraw
 
         protected override async void OnInitialized(EventArgs e)
         {
-            var tileProvider = new AttendeeMeetupComTileProvider(Settings.Default);
+            var tileProvider = new AttendeeFileListTileProvider();
             var vm = new MainWindowViewModel(tileProvider);
 
             await vm.InitAsync();
@@ -142,11 +142,25 @@ namespace PrizeDraw
 
                     break;
                 }
+                case Key.F5:
+                {
+                    var sourceTileProvider = new AttendeeMeetupComTileProvider(Settings.Default);
+                    var targetTileProvider = new AttendeeFileListTileProvider();
+                    var dialogServer = new DialogService();
+                    var wnd = new MeetupDotComSync {DataContext = new MeetupDotComSyncViewModel(sourceTileProvider, targetTileProvider, dialogServer)};
+                    wnd.ShowDialog();
+                    break;
+                }
             }
         }
 
         private void InitialiseGrid(MainWindowViewModel vm)
         {
+            if (!vm.Tiles.Any())
+            {
+                return;
+            }
+
             for(var x = 0; x < vm.NumColumns; x++)
             {
                 TileGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });

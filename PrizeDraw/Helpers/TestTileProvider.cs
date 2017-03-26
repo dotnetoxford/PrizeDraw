@@ -20,5 +20,10 @@ namespace PrizeDraw.Helpers
                 new TileViewModel { Color = new SolidColorBrush(Color.FromRgb(128, 255, 0)) },
             });
         }
+
+        public Task SaveTilesAsync(List<TileViewModel> tiles)
+        {
+            throw new System.NotSupportedException();
+        }
     }
 }
