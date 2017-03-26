@@ -1,10 +1,11 @@
 ﻿using PrizeDraw.ViewModels;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PrizeDraw.Helpers
 {
     public interface ITileProvider
     {
-        List<TileViewModel> GetTiles();
+        Task<List<TileViewModel>> GetTilesAsync();
     }
 }

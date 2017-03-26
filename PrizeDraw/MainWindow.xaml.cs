@@ -6,6 +6,7 @@ using System.Linq;
 using PrizeDraw.Helpers;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
+using PrizeDraw.Properties;
 
 namespace PrizeDraw
 {
@@ -20,9 +21,14 @@ namespace PrizeDraw
         public MainWindow()
         {
             InitializeComponent();
+        }
 
-            var tileProvider = new AttendeeFileListTileProvider();
+        protected override async void OnInitialized(EventArgs e)
+        {
+            var tileProvider = new AttendeeMeetupComTileProvider(Settings.Default);
             var vm = new MainWindowViewModel(tileProvider);
+
+            await vm.InitAsync();
 
             InitialiseGrid(vm);
 
@@ -30,11 +36,13 @@ namespace PrizeDraw
             vm.OnWinnerSelected += OnWinnerSelected;
 
             DataContext = vm;
+
+            base.OnInitialized(e);
         }
 
         private void OnWinnerSelected(object sender, WinnerSelectedEventArgs eventArgs)
         {
-            Application.Current.Dispatcher.Invoke(() => WinnerSelected(eventArgs.WinnerName));
+            Application.Current.Dispatcher.Invoke(() => WinnerSelected(eventArgs.AttendeeId));
         }
 
         private void WinnerSelected(int attendeeId)

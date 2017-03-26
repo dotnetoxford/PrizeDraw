@@ -1,14 +1,15 @@
 ﻿using PrizeDraw.ViewModels;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace PrizeDraw.Helpers
 {
     public class TestTileProvider : ITileProvider
     {
-        public List<TileViewModel> GetTiles()
+        public Task<List<TileViewModel>> GetTilesAsync()
         {
-            return new List<TileViewModel>
+            return Task.FromResult(new List<TileViewModel>
             {
                 new TileViewModel { Color = new SolidColorBrush(Color.FromRgb(255, 0, 0)) },
                 new TileViewModel { Color = new SolidColorBrush(Color.FromRgb(0, 255, 0)) },
@@ -17,7 +18,7 @@ namespace PrizeDraw.Helpers
                 new TileViewModel { Color = new SolidColorBrush(Color.FromRgb(255, 255, 0)) },
                 new TileViewModel { Color = new SolidColorBrush(Color.FromRgb(0, 255, 0)) },
                 new TileViewModel { Color = new SolidColorBrush(Color.FromRgb(128, 255, 0)) },
-            };
+            });
         }
     }
 }

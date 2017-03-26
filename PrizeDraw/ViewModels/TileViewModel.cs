@@ -7,6 +7,7 @@ namespace PrizeDraw.ViewModels
     {
         public string Name { get; set; }
         public int AttendeeId { get; set; }
+        public string Image { get; set; }
 
         private bool _isSelected;
         public bool IsSelected

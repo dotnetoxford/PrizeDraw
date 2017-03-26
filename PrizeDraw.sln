@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrizeDraw", "PrizeDraw\PrizeDraw.csproj", "{1E8F8BD4-5814-4897-99AC-C9DC0C433677}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrizeDraw.Tests", "PrizeDraw.Tests\PrizeDraw.Tests.csproj", "{CF498DE1-1EA5-4792-B097-BA1A9E1C84DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{1E8F8BD4-5814-4897-99AC-C9DC0C433677}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E8F8BD4-5814-4897-99AC-C9DC0C433677}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E8F8BD4-5814-4897-99AC-C9DC0C433677}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF498DE1-1EA5-4792-B097-BA1A9E1C84DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF498DE1-1EA5-4792-B097-BA1A9E1C84DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF498DE1-1EA5-4792-B097-BA1A9E1C84DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF498DE1-1EA5-4792-B097-BA1A9E1C84DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -12,6 +12,7 @@
 
     <Grid>
         <Grid Background="{Binding Color}" Visibility="{Binding IsNotSelected, Converter={StaticResource BoolToVisConverter}}">
+            <Image Source="{Binding Image}" />
             <TextBlock
                 Visibility="{Binding IsNotSelected}"
                 Text="{Binding Name}"
@@ -21,12 +22,15 @@
         </Grid>
         <Grid Background="White" Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisConverter}}">
             <Border BorderThickness="5" BorderBrush="Black">
+            <Grid>
+                <Image Source="{Binding Image}" />
                 <TextBlock
                     FontWeight="Bold"
                     Text="{Binding Name}"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontSize="16" />
+                    </Grid>
             </Border>
         </Grid>
     </Grid>

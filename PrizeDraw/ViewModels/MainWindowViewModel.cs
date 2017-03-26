@@ -3,12 +3,15 @@ using PrizeDraw.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Timers;
 
 namespace PrizeDraw.ViewModels
 {
     internal class MainWindowViewModel : ViewModelBase
     {
+        private readonly ITileProvider _tileProvider;
+
         public enum ModeEnum
         {
             Idle,
@@ -68,7 +71,14 @@ namespace PrizeDraw.ViewModels
 
         public MainWindowViewModel(ITileProvider tileProvider)
         {
-            Tiles = tileProvider.GetTiles();
+            _tileProvider = tileProvider;
+
+            _timer = new Timer();
+        }
+
+        public async Task InitAsync()
+        {
+            Tiles = await _tileProvider.GetTilesAsync();
 
             // Randomly shuffle the list
             var rnd = new Random();
@@ -76,7 +86,6 @@ namespace PrizeDraw.ViewModels
 
             NumColumns = (int)(Math.Sqrt(Tiles.Count) + 0.5);
 
-            _timer = new Timer();
             _timer.Elapsed += (sender, e) => HandleTimer();
         }
 
