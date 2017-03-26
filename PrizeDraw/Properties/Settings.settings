@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="MeetupDotComEventId" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">237550528</Value>
     </Setting>
   </Settings>
 </SettingsFile>
