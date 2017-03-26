@@ -12,7 +12,6 @@
 
     <Grid>
         <Grid Background="{Binding Color}" Visibility="{Binding IsNotSelected, Converter={StaticResource BoolToVisConverter}}">
-            <Image Source="{Binding Image}" />
             <TextBlock
                 Visibility="{Binding IsNotSelected}"
                 Text="{Binding Name}"
