@@ -51,6 +51,10 @@ namespace PrizeDraw
                                        where t.ViewModel.AttendeeId == attendeeId
                                        select t).Single();
 
+            var vm = DataContext as MainWindowViewModel;
+
+            vm?.SaveWinnerDetails(selectedTileControl.ViewModel);
+
             InitializeAndBeginAnimation(selectedTileControl);
         }
 

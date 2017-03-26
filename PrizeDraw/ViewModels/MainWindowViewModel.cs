@@ -2,6 +2,7 @@
 using PrizeDraw.Helpers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
@@ -118,6 +119,18 @@ namespace PrizeDraw.ViewModels
             Mode = ModeEnum.Slowdown;
             _slowdownStartTime = DateTimeOffset.UtcNow;
             _timer.Interval = GetCurrentTimerInterval();
+        }
+
+        public void SaveWinnerDetails(TileViewModel winningTileViewModel)
+        {
+            var fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PrizeDraw", "Winners.txt");
+
+            using (var stream = File.AppendText(fileName))
+            {
+                stream.WriteLineAsync($"Time: {DateTime.UtcNow}");
+                stream.WriteLineAsync($"    Name: {winningTileViewModel.Name}");
+                stream.WriteLineAsync($"    Id: {winningTileViewModel.AttendeeId}");
+            }
         }
 
         private void HandleTimer()
