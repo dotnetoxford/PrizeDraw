@@ -19,6 +19,7 @@ namespace PrizeDraw.Helpers
                             .Select((x, n) => new TileViewModel
                             {
                                 Name = x,
+                                AttendeeId = n,
                                 // Bias the randomized colours so it's more purple, and less chance of
                                 // a white conflicting with the selected tile. Longer term, this needs
                                 // to be made more configurable.

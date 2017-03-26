@@ -6,6 +6,7 @@ namespace PrizeDraw.ViewModels
     public class TileViewModel : ViewModelBase
     {
         public string Name { get; set; }
+        public int AttendeeId { get; set; }
 
         private bool _isSelected;
         public bool IsSelected

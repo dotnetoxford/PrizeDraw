@@ -117,7 +117,12 @@ namespace PrizeDraw.ViewModels
             {
                 _timer.Stop();
                 _mode = ModeEnum.WinnerSelected;
-                OnWinnerSelected?.Invoke(this, new WinnerSelectedEventArgs { WinningTile = SelectedTile, WinnerName = SelectedTile.Name });
+                OnWinnerSelected?.Invoke(this, new WinnerSelectedEventArgs
+                                               {
+                                                   WinningTile = SelectedTile,
+                                                   WinnerName = SelectedTile.Name,
+                                                   AttendeeId = SelectedTile.AttendeeId
+                                               });
                 return;
             }
 

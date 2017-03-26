@@ -37,10 +37,10 @@ namespace PrizeDraw
             Application.Current.Dispatcher.Invoke(() => WinnerSelected(eventArgs.WinnerName));
         }
 
-        private void WinnerSelected(string winnerName)
+        private void WinnerSelected(int attendeeId)
         {
             var selectedTileControl = (from t in TileGrid.Children.OfType<TileUserControl>()
-                                       where t.AttendeeName == winnerName
+                                       where t.ViewModel.AttendeeId == attendeeId
                                        select t).Single();
 
             InitializeAndBeginAnimation(selectedTileControl);
