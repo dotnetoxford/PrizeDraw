@@ -37,7 +37,7 @@ namespace PrizeDraw.Helpers
 
                 var rand = new Random();
 
-                return rsvps.Select(x => new TileViewModel
+                return rsvps.Where(x => x.response == "yes").Select(x => new TileViewModel
                 {
                     Name = x.member.name,
                     AttendeeId = x.member.id,
