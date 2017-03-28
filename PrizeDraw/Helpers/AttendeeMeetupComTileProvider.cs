@@ -42,13 +42,9 @@ namespace PrizeDraw.Helpers
                     Name = x.member.name,
                     AttendeeId = x.member.id,
                     ImageUri = x.member.photo?.highres_link ?? x.member.photo?.photo_link,
-                    // Bias the randomized colours so it's more purple, and less chance of
-                    // a white conflicting with the selected tile. Longer term, this needs
-                    // to be made more configurable.
-                    Color = new SolidColorBrush(Color.FromRgb(
-                                                                  (byte)rand.Next(0, 200),
-                                                                  (byte)rand.Next(0, 200),
-                                                                  (byte)rand.Next(50, 256)))
+                    Color = new SolidColorBrush(Color.FromRgb((byte)rand.Next(100, 256),
+                                                              (byte)rand.Next(100, 256),
+                                                              (byte)rand.Next(100, 256)))
                 }).ToList();
             }
         }
