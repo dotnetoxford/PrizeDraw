@@ -1,6 +1,6 @@
-# Price Draw
+# Prize Draw
 
-This is a tool written for the .NET Oxford meetup for when we do price draws. Whilst primarily written for .NET Oxford, it can be used by any meetup.
+This is a tool written for the .NET Oxford meetup for when we do prize draws. Whilst primarily written for .NET Oxford, it can be used by any meetup.
 
 ## Setup
 
