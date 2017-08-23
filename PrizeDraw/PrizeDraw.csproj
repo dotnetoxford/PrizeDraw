@@ -77,10 +77,18 @@
     <Compile Include="Helpers\DialogService.cs" />
     <Compile Include="Helpers\ITileProvider.cs" />
     <Compile Include="Helpers\AttendeeFileListTileProvider.cs" />
+    <Compile Include="Models\MeetupCom\Rsvps\Event.cs" />
+    <Compile Include="Models\MeetupCom\Rsvps\Event_Context.cs" />
+    <Compile Include="Models\MeetupCom\Rsvps\Group.cs" />
+    <Compile Include="Models\MeetupCom\Rsvps\Group_Photo.cs" />
+    <Compile Include="Models\MeetupCom\Rsvps\Member.cs" />
+    <Compile Include="Models\MeetupCom\Rsvps\Photo.cs" />
+    <Compile Include="Models\MeetupCom\Rsvps\Rsvp.cs" />
     <Compile Include="Helpers\TestTileProvider.cs" />
     <Compile Include="MeetupDotComSync.xaml.cs">
       <DependentUpon>MeetupDotComSync.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\MeetupCom\Rsvps\Venue.cs" />
     <Compile Include="TileUserControl.xaml.cs">
       <DependentUpon>TileUserControl.xaml</DependentUpon>
     </Compile>
@@ -141,5 +149,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
