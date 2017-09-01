@@ -25,7 +25,8 @@ namespace PrizeDraw.Helpers
         {
             using (var client = new HttpClient())
             {
-                var eventId = _settings.MeetupDotComEventId;
+                //var eventId = _settings.MeetupDotComEventId;
+                var eventId = "241049545";
 
                 client.BaseAddress = new Uri("https://api.meetup.com");
 

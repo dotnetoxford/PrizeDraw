@@ -25,7 +25,7 @@ namespace PrizeDraw.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("238808412")]
+        [global::System.Configuration.DefaultSettingValueAttribute("241049545")]
         public int MeetupDotComEventId {
             get {
                 return ((int)(this["MeetupDotComEventId"]));

@@ -75,8 +75,13 @@
     </ApplicationDefinition>
     <Compile Include="Helpers\AttendeeMeetupComTileProvider.cs" />
     <Compile Include="Helpers\DialogService.cs" />
+    <Compile Include="Helpers\IEventValidator.cs" />
     <Compile Include="Helpers\ITileProvider.cs" />
     <Compile Include="Helpers\AttendeeFileListTileProvider.cs" />
+    <Compile Include="Helpers\MeetupComEventValidator.cs" />
+    <Compile Include="Models\MeetupCom\Event\Event.cs" />
+    <Compile Include="Models\MeetupCom\Event\Group.cs" />
+    <Compile Include="Models\MeetupCom\Event\Venue.cs" />
     <Compile Include="Models\MeetupCom\Rsvps\Event.cs" />
     <Compile Include="Models\MeetupCom\Rsvps\Event_Context.cs" />
     <Compile Include="Models\MeetupCom\Rsvps\Group.cs" />

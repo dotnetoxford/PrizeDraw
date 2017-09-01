@@ -124,7 +124,7 @@ namespace PrizeDraw
             storyboard.Begin(this);
         }
 
-        void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        async void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.Key)
             {
@@ -148,6 +148,17 @@ namespace PrizeDraw
                 }
                 case Key.F5:
                 {
+                    var eventValidator = new MeetupComEventValidator();
+                    await eventValidator.InitAsync(Settings.Default.MeetupDotComEventId);
+
+                    if (!eventValidator.IsEventDateToday())
+                    {
+                        if (MessageBox.Show("This event isn't for today. Are you sure you have the correct event id?", "Event not today", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                        {
+                            return;
+                        }
+                    }
+
                     var sourceTileProvider = new AttendeeMeetupComTileProvider(Settings.Default);
                     var targetTileProvider = new AttendeeFileListTileProvider();
                     var dialogServer = new DialogService();
