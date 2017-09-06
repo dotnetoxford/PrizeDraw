@@ -53,7 +53,7 @@ namespace PrizeDraw
 
             var vm = DataContext as MainWindowViewModel;
 
-            vm?.SaveWinnerDetails(selectedTileControl.ViewModel);
+            vm?.SaveWinnerDetails(selectedTileControl.ViewModel, false);
 
             InitializeAndBeginAnimation(selectedTileControl);
         }
@@ -144,6 +144,12 @@ namespace PrizeDraw
                         Canvas.Children.Remove(Canvas.Children[0]);
                     }
 
+                    break;
+                }
+                case Key.Enter:
+                {
+                    var vm = DataContext as MainWindowViewModel;
+                    vm?.SaveWinnerDetails(vm.SelectedTile, true);
                     break;
                 }
                 case Key.F5:

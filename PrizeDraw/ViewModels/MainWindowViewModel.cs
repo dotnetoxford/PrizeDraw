@@ -121,7 +121,7 @@ namespace PrizeDraw.ViewModels
             _timer.Interval = GetCurrentTimerInterval();
         }
 
-        public void SaveWinnerDetails(TileViewModel winningTileViewModel)
+        public void SaveWinnerDetails(TileViewModel winningTileViewModel, bool flagged)
         {
             var fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PrizeDraw", "Winners.txt");
 
@@ -130,6 +130,11 @@ namespace PrizeDraw.ViewModels
                 stream.WriteLineAsync($"Time: {DateTime.UtcNow}");
                 stream.WriteLineAsync($"    Name: {winningTileViewModel.Name}");
                 stream.WriteLineAsync($"    Id: {winningTileViewModel.AttendeeId}");
+
+                if (flagged)
+                {
+                    stream.WriteLineAsync("    Flagged as genuine winner");
+                }
             }
         }
 
