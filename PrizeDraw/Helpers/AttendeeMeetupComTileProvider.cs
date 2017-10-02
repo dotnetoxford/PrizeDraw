@@ -6,21 +6,12 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using Newtonsoft.Json;
-using PrizeDraw.Models.MeetupCom;
 using PrizeDraw.Models.MeetupCom.Rsvps;
-using PrizeDraw.Properties;
 
 namespace PrizeDraw.Helpers
 {
     public class AttendeeMeetupComTileProvider : ITileProvider
     {
-        private readonly Settings _settings;
-
-        public AttendeeMeetupComTileProvider(Settings settings)
-        {
-            _settings = settings;
-        }
-
         public async Task<List<TileViewModel>> GetTilesAsync()
         {
             using (var client = new HttpClient())

@@ -154,8 +154,16 @@ namespace PrizeDraw
                 }
                 case Key.F5:
                 {
+                    // Ask user for an event id
+                    var vmEventIdDlg = new RequestEventIdDialogViewModel();
+                    var dlg = new RequestEventIdDialog {DataContext = vmEventIdDlg};
+                    if (dlg.ShowDialog() != true)
+                    {
+                        return;
+                    }
+
                     var eventValidator = new MeetupComEventValidator();
-                    await eventValidator.InitAsync(Settings.Default.MeetupDotComEventId);
+                    await eventValidator.InitAsync(vmEventIdDlg.EventId);
 
                     if (!eventValidator.IsEventDateToday())
                     {
@@ -165,7 +173,7 @@ namespace PrizeDraw
                         }
                     }
 
-                    var sourceTileProvider = new AttendeeMeetupComTileProvider(Settings.Default);
+                    var sourceTileProvider = new AttendeeMeetupComTileProvider();
                     var targetTileProvider = new AttendeeFileListTileProvider();
                     var dialogServer = new DialogService();
                     var wnd = new MeetupDotComSync {DataContext = new MeetupDotComSyncViewModel(sourceTileProvider, targetTileProvider, dialogServer)};

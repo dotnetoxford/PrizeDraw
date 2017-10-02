@@ -94,11 +94,15 @@
       <DependentUpon>MeetupDotComSync.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\MeetupCom\Rsvps\Venue.cs" />
+    <Compile Include="RequestEventIdDialog.xaml.cs">
+      <DependentUpon>RequestEventIdDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TileUserControl.xaml.cs">
       <DependentUpon>TileUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MeetupDotComSyncViewModel.cs" />
+    <Compile Include="ViewModels\RequestEventIdDialogViewModel.cs" />
     <Compile Include="ViewModels\TileViewModel.cs" />
     <Compile Include="Helpers\WinnerSelectedEventArgs.cs" />
     <Page Include="MainWindow.xaml">
@@ -114,6 +118,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="MeetupDotComSync.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RequestEventIdDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
