@@ -173,9 +173,12 @@ namespace PrizeDraw
                         }
                     }
 
-                    var sourceTileProvider = new AttendeeMeetupComTileProvider();
+                    var sourceTileProvider = new AttendeeMeetupComTileProvider(vmEventIdDlg.EventId);
                     var targetTileProvider = new AttendeeFileListTileProvider();
                     var dialogServer = new DialogService();
+
+                    Canvas.Children.RemoveRange(0, Canvas.Children.Count);
+
                     var wnd = new MeetupDotComSync {DataContext = new MeetupDotComSyncViewModel(sourceTileProvider, targetTileProvider, dialogServer)};
                     wnd.ShowDialog();
                     break;

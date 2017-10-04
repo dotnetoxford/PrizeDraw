@@ -11,7 +11,9 @@ namespace PrizeDraw.Helpers
 {
     public class AttendeeFileListTileProvider : ITileProvider
     {
-        private static string FileName => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PrizeDraw", "Attendees.txt");
+        private static string AppFolder => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PrizeDraw");
+        private static string AttendeesFileName => Path.Combine(AppFolder, "Attendees.txt");
+        private static string ImageFolder => Path.Combine(AppFolder, "Images");
 
         public async Task<List<TileViewModel>> GetTilesAsync()
         {
@@ -19,34 +21,39 @@ namespace PrizeDraw.Helpers
 
             var rand = new Random();
 
-            if (!File.Exists(FileName))
+            if (!File.Exists(AttendeesFileName))
             {
                 return new List<TileViewModel>();
             }
 
-            return File.ReadAllLines(FileName)
+            var tiles = File.ReadAllLines(AttendeesFileName)
                 .Where(x => !string.IsNullOrWhiteSpace(x))
                 .OrderBy(x => x)
                 .Select(x => x.Split('\t'))
-                .Select(x => new TileViewModel
-                {
-                    Name = x[0],
-                    AttendeeId = int.Parse(x[1]),
-                    ImageUri = null,
-                    LocalImageFileName = string.IsNullOrWhiteSpace(x[2]) ? null : x[2],
+                .Select(x => new TileViewModel(
+                    name: x[0],
+                    attendeeId: int.Parse(x[1]),
+                    remoteImageUri: null,
                     // Bias the randomized colours so it's more purple, and less chance of
                     // a white conflicting with the selected tile. Longer term, this needs
                     // to be made more configurable.
-                    Color = new SolidColorBrush(Color.FromRgb(
+                    color: new SolidColorBrush(Color.FromRgb(
                         (byte)rand.Next(0, 200),
                         (byte)rand.Next(0, 200),
                         (byte)rand.Next(50, 256)))
-                }).ToList();
+                )).ToList();
+
+            foreach (var tile in tiles)
+            {
+                tile.LoadImage(ImageFolder);
+            }
+
+            return tiles;
         }
 
         public async Task SaveTilesAsync(List<TileViewModel> tiles)
         {
-            var fullPath = Path.GetDirectoryName(FileName);
+            var fullPath = Path.GetDirectoryName(AttendeesFileName);
             if (fullPath == null)
             {
                 throw new NullReferenceException("Invalid filename");
@@ -59,26 +66,25 @@ namespace PrizeDraw.Helpers
                 Directory.CreateDirectory(imagePath);
             }
 
-            var remoteImages = tiles.Where(t => !string.IsNullOrWhiteSpace(t.ImageUri));
+            var remoteImages = tiles.Where(t => !string.IsNullOrWhiteSpace(t.RemoteImageUri));
 
             foreach (var remoteImage in remoteImages)
             {
                 using (var client = new HttpClient())
                 {
-                    var imageBytes = await client.GetByteArrayAsync(remoteImage.ImageUri);
                     var localImagePath = Path.Combine(imagePath, $"{remoteImage.AttendeeId}.jpg");
+                    var imageBytes = await client.GetByteArrayAsync(remoteImage.RemoteImageUri);
                     File.WriteAllBytes(localImagePath, imageBytes);
-                    remoteImage.LocalImageFileName = localImagePath;
                 }
             }
 
-            using (var fs = new FileStream(FileName, FileMode.Create, FileAccess.Write))
+            using (var fs = new FileStream(AttendeesFileName, FileMode.Create, FileAccess.Write))
             {
                 using (var sw = new StreamWriter(fs))
                 {
                     foreach (var tile in tiles)
                     {
-                        await sw.WriteLineAsync($"{tile.Name}\t{tile.AttendeeId}\t{tile.LocalImageFileName}");
+                        await sw.WriteLineAsync($"{tile.Name}\t{tile.AttendeeId}");
                     }
                 }
             }

@@ -12,16 +12,20 @@ namespace PrizeDraw.Helpers
 {
     public class AttendeeMeetupComTileProvider : ITileProvider
     {
+        private readonly int _eventId;
+
+        public AttendeeMeetupComTileProvider(int eventId)
+        {
+            _eventId = eventId;
+        }
+
         public async Task<List<TileViewModel>> GetTilesAsync()
         {
             using (var client = new HttpClient())
             {
-                //var eventId = _settings.MeetupDotComEventId;
-                var eventId = "241049545";
-
                 client.BaseAddress = new Uri("https://api.meetup.com");
 
-                var response = await client.GetAsync($"/dotnetoxford/events/{eventId}/rsvps");
+                var response = await client.GetAsync($"/dotnetoxford/events/{_eventId}/rsvps");
 
                 response.EnsureSuccessStatusCode();
 
@@ -31,15 +35,14 @@ namespace PrizeDraw.Helpers
 
                 var rand = new Random();
 
-                return rsvps.Where(x => x.response == "yes").Select(x => new TileViewModel
-                {
-                    Name = x.member.name,
-                    AttendeeId = x.member.id,
-                    ImageUri = x.member.photo?.highres_link ?? x.member.photo?.photo_link,
-                    Color = new SolidColorBrush(Color.FromRgb((byte)rand.Next(100, 256),
+                return rsvps.Where(x => x.response == "yes").Select(x => new TileViewModel(
+                    name: x.member.name,
+                    attendeeId: x.member.id,
+                    remoteImageUri: x.member.photo?.highres_link ?? x.member.photo?.photo_link,
+                    color: new SolidColorBrush(Color.FromRgb((byte)rand.Next(100, 256),
                                                               (byte)rand.Next(100, 256),
                                                               (byte)rand.Next(100, 256)))
-                }).ToList();
+                )).ToList();
             }
         }
 

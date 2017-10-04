@@ -27,7 +27,8 @@
                         <RowDefinition Height="1*" />
                     </Grid.RowDefinitions>
 
-                    <Image Source="{Binding Image}" Grid.Row="0" />
+                    <Image Source="{Binding BitmapImage}" Grid.Row="0" />
+
                     <TextBlock
                         Grid.Row="1"
                         FontWeight="Bold"

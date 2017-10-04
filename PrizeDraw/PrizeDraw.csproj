@@ -89,7 +89,6 @@
     <Compile Include="Models\MeetupCom\Rsvps\Member.cs" />
     <Compile Include="Models\MeetupCom\Rsvps\Photo.cs" />
     <Compile Include="Models\MeetupCom\Rsvps\Rsvp.cs" />
-    <Compile Include="Helpers\TestTileProvider.cs" />
     <Compile Include="MeetupDotComSync.xaml.cs">
       <DependentUpon>MeetupDotComSync.xaml</DependentUpon>
     </Compile>
