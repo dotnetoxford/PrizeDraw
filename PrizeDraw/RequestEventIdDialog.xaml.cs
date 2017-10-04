@@ -10,6 +10,8 @@ namespace PrizeDraw
         public RequestEventIdDialog()
         {
             InitializeComponent();
+
+            tbEventId.SelectionLength = 1;
         }
 
         private void OkayButton_OnClick(object sender, RoutedEventArgs e)
