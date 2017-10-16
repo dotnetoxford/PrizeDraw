@@ -129,12 +129,14 @@ namespace PrizeDraw
             switch (e.Key)
             {
                 case Key.Space:
+                case Key.Next:
                 {
                     var vm = DataContext as MainWindowViewModel;
                     vm?.StartNextMode();
                     break;
                 }
                 case Key.Escape:
+                case Key.B:
                 {
                     var vm = DataContext as MainWindowViewModel;
                     vm?.Restart();
@@ -147,6 +149,7 @@ namespace PrizeDraw
                     break;
                 }
                 case Key.Enter:
+                case Key.PageUp:
                 {
                     var vm = DataContext as MainWindowViewModel;
 
