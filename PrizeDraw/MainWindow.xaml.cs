@@ -149,7 +149,12 @@ namespace PrizeDraw
                 case Key.Enter:
                 {
                     var vm = DataContext as MainWindowViewModel;
-                    vm?.SaveWinnerDetails(vm.SelectedTile, true);
+
+                    if (vm?.SelectedTile != null)
+                    {
+                        vm.SaveWinnerDetails(vm.SelectedTile, true);
+                    }
+
                     break;
                 }
                 case Key.F5:
