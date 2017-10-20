@@ -12,15 +12,17 @@
 
     <Grid>
         <Grid Background="{Binding Color}" Visibility="{Binding IsNotSelected, Converter={StaticResource BoolToVisConverter}}">
-            <TextBlock
-                Visibility="{Binding IsNotSelected}"
-                Text="{Binding Name}"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                FontSize="18" />
+            <Border BorderThickness="3" BorderBrush="Black">
+                <TextBlock
+                    Visibility="{Binding IsNotSelected}"
+                    Text="{Binding Name}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="18" />
+            </Border>
         </Grid>
         <Grid Background="White" Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisConverter}}">
-            <Border BorderThickness="5" BorderBrush="Black">
+            <Border BorderThickness="4" BorderBrush="Black">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="4*" />
