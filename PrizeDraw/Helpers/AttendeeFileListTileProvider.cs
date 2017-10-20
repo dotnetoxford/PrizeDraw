@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using RandomColorGenerator;
 
 namespace PrizeDraw.Helpers
 {
@@ -34,13 +35,8 @@ namespace PrizeDraw.Helpers
                     name: x[0],
                     attendeeId: int.Parse(x[1]),
                     remoteImageUri: null,
-                    // Bias the randomized colours so it's more purple, and less chance of
-                    // a white conflicting with the selected tile. Longer term, this needs
-                    // to be made more configurable.
-                    color: new SolidColorBrush(Color.FromRgb(
-                        (byte)rand.Next(0, 200),
-                        (byte)rand.Next(0, 200),
-                        (byte)rand.Next(50, 256)))
+                    // Randomize colour value
+                    color: new SolidColorBrush(RandomColor.GetColor(ColorScheme.Random, Luminosity.Bright))
                 )).ToList();
 
             foreach (var tile in tiles)
