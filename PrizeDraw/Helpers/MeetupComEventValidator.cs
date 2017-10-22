@@ -10,13 +10,17 @@ namespace PrizeDraw.Helpers
     {
         private Event _eventInfo;
 
+        private readonly MeetupComHelper meetupComHelper = new MeetupComHelper();
+
         public async Task InitAsync(int eventId)
         {
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://api.meetup.com");
 
-                var response = await client.GetAsync($"/dotnetoxford/events/{eventId}");
+                var apiPath = $"{await meetupComHelper.GetEventApiPathAsync(client, eventId)}";
+
+                var response = await client.GetAsync(apiPath);
 
                 response.EnsureSuccessStatusCode();
 

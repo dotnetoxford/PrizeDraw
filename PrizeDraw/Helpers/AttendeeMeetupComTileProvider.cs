@@ -13,6 +13,7 @@ namespace PrizeDraw.Helpers
     public class AttendeeMeetupComTileProvider : ITileProvider
     {
         private readonly int _eventId;
+        private readonly MeetupComHelper _meetupComHelper = new MeetupComHelper(); //(todo) Not happy with the new here. Should really have introduced an IoC container from the start. Will add a GitHub issue to refactor in Autofac
 
         public AttendeeMeetupComTileProvider(int eventId)
         {
@@ -25,8 +26,9 @@ namespace PrizeDraw.Helpers
             {
                 client.BaseAddress = new Uri("https://api.meetup.com");
 
-                var response = await client.GetAsync($"/dotnetoxford/events/{_eventId}/rsvps");
+                var apiPath = $"{await _meetupComHelper.GetEventApiPathAsync(client, _eventId)}/rsvps";
 
+                var response = await client.GetAsync(apiPath);
                 response.EnsureSuccessStatusCode();
 
                 var content = await response.Content.ReadAsStringAsync();
