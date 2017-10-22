@@ -1,0 +1,3 @@
+@eventId = 242414971
+
+https://api.meetup.com/dotnetoxford/events/{{eventId}}/rsvps
