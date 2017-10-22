@@ -78,6 +78,7 @@
     </ApplicationDefinition>
     <Compile Include="Helpers\AttendeeMeetupComTileProvider.cs" />
     <Compile Include="Helpers\DialogService.cs" />
+    <Compile Include="Helpers\ICloseableWindow.cs" />
     <Compile Include="Helpers\IEventValidator.cs" />
     <Compile Include="Helpers\ITileProvider.cs" />
     <Compile Include="Helpers\AttendeeFileListTileProvider.cs" />

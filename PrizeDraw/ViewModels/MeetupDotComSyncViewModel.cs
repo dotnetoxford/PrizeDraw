@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Views;
@@ -24,9 +23,9 @@ namespace PrizeDraw.ViewModels
             _dialogService = dialogService;
         }
 
-        public RelayCommand SyncCommand => new RelayCommand(async () => await SyncAsync(), () => !_syncInProgress);
+        public RelayCommand<ICloseableWindow> SyncCommand => new RelayCommand<ICloseableWindow>(async closableWindow => await SyncAsync(closableWindow), closableWindow => !_syncInProgress);
 
-        private async Task SyncAsync()
+        private async Task SyncAsync(ICloseableWindow closableWindow)
         {
             _syncInProgress = true;
             RaisePropertyChanged(nameof(ButtonText));
@@ -37,6 +36,8 @@ namespace PrizeDraw.ViewModels
                 await _targetTileProvider.SaveTilesAsync(tiles);
 
                 await _dialogService.ShowMessageBox("Synchronization Successful - please restart the app to use this data", "Meetup.com Download");
+
+                closableWindow.Close();
             }
             finally
             {

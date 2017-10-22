@@ -6,7 +6,6 @@ using System.Linq;
 using PrizeDraw.Helpers;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
-using PrizeDraw.Properties;
 
 namespace PrizeDraw
 {
@@ -162,6 +161,8 @@ namespace PrizeDraw
                 }
                 case Key.F5:
                 {
+                    Hide();
+
                     // Ask user for an event id
                     var vmEventIdDlg = new RequestEventIdDialogViewModel();
                     var dlg = new RequestEventIdDialog {DataContext = vmEventIdDlg};
@@ -189,6 +190,9 @@ namespace PrizeDraw
 
                     var wnd = new MeetupDotComSync {DataContext = new MeetupDotComSyncViewModel(sourceTileProvider, targetTileProvider, dialogServer)};
                     wnd.ShowDialog();
+
+                    Close();
+
                     break;
                 }
             }
