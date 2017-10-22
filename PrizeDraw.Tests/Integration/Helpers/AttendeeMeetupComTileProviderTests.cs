@@ -10,7 +10,7 @@ namespace PrizeDraw.Tests.Integration.Helpers
         [Test]
         public async Task GivenAMeetupEventId_WithRSVPs_ThenResultsShouldHaveValues()
         {
-            var sut = new AttendeeMeetupComTileProvider(0);
+            var sut = new AttendeeMeetupComTileProvider(242414971);
             var tiles = await sut.GetTilesAsync();
 
             Assert.That(tiles.Count, Is.GreaterThan(0));
