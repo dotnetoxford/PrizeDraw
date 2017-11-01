@@ -41,3 +41,12 @@ This folder is actually also where the list of attendees and their profile image
 Because sometimes you may draw winners that are no-shows, requiring a redraw - you can also press the `enter` key when on you have a genuine winner - and a second entry will be added to the winner text file for that winner with the text *"Flagged as genuine winner"*. This helps you reconcile the winners later on, and differentiate between no-show winners and actual winners. I added this after having this problem a few times where a had a list of winners, and had forgotten which were re-draws vs genuine winners.
 
 **Note:** There's currently a bug (see #12) where before you can retrieve the list of attendees from Meetup.com (see above), you'll have to delete the existing downloaded profile images.
+
+## Sounds Effects
+
+There are two sound effects ...
+
+1. A knocking sound each time the selected tile changes.
+1. A fanfare sound when the selected tile lands on the winner.
+
+You can change these sound effects by just swapping out the .wav files in the `Media` folder. Or delete them if you prefer not to have them.

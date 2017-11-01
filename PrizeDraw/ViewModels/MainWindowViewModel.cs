@@ -12,6 +12,7 @@ namespace PrizeDraw.ViewModels
     internal class MainWindowViewModel : ViewModelBase
     {
         private readonly ITileProvider _tileProvider;
+        private readonly ISoundEffects _soundEffects;
 
         public enum ModeEnum
         {
@@ -70,9 +71,10 @@ namespace PrizeDraw.ViewModels
         private readonly Timer _timer;
         private DateTimeOffset _slowdownStartTime;
 
-        public MainWindowViewModel(ITileProvider tileProvider)
+        public MainWindowViewModel(ITileProvider tileProvider, ISoundEffects soundEffects)
         {
             _tileProvider = tileProvider;
+            _soundEffects = soundEffects;
 
             _timer = new Timer();
         }
@@ -142,6 +144,7 @@ namespace PrizeDraw.ViewModels
         {
             if (_mode == ModeEnum.Slowdown && _timer.Interval > MaxSlowdownInterval.TotalMilliseconds) // Winning tile!
             {
+                _soundEffects.PlayWinnerSound();
                 _timer.Stop();
                 _mode = ModeEnum.WinnerSelected;
                 OnWinnerSelected?.Invoke(this, new WinnerSelectedEventArgs
@@ -160,6 +163,8 @@ namespace PrizeDraw.ViewModels
             SelectedTile = Tiles[randomTileIndex];
 
             _timer.Interval = GetCurrentTimerInterval();
+
+            _soundEffects.PlayTileChangeSound();
         }
 
         private double GetCurrentTimerInterval()

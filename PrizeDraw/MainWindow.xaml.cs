@@ -24,8 +24,9 @@ namespace PrizeDraw
 
         protected override async void OnInitialized(EventArgs e)
         {
+            var soundEffects = new WavSoundEffects();
             var tileProvider = new AttendeeFileListTileProvider();
-            var vm = new MainWindowViewModel(tileProvider);
+            var vm = new MainWindowViewModel(tileProvider, soundEffects);
 
             await vm.InitAsync();
 
