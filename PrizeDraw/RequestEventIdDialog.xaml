@@ -3,16 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="clr-namespace:PrizeDraw.ViewModels"
         mc:Ignorable="d"
         Title="Event Details"
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen" 
         FocusManager.FocusedElement="{Binding ElementName=tbEventId}">
-
-    <Window.DataContext>
-        <vm:RequestEventIdDialogViewModel />
-    </Window.DataContext>
 
     <Grid Margin="15">
         <Grid.ColumnDefinitions>

@@ -1,20 +1,30 @@
-﻿using System.Media;
+﻿using System.IO;
+using System.Media;
 
 namespace PrizeDraw.Helpers
 {
     public class WavSoundEffects : ISoundEffects
     {
-        private static readonly SoundPlayer _tileChangeSoundPlayer = new SoundPlayer(@"Media/TileChange.wav");
-        private static readonly SoundPlayer _winnerSoundPlayer = new SoundPlayer(@"Media/Winner.wav");
+        private readonly SoundPlayer _tileChangeSoundPlayer;
+        private readonly SoundPlayer _winnerSoundPlayer;
+
+        private const string TileChangeWavFile = @"Media/TileChange.wav";
+        private const string WinnerWavFile = @"Media/Winner.wav";
+
+        public WavSoundEffects()
+        {
+            _tileChangeSoundPlayer = File.Exists(TileChangeWavFile) ? new SoundPlayer(TileChangeWavFile) : null;
+            _winnerSoundPlayer = File.Exists(WinnerWavFile) ? new SoundPlayer(WinnerWavFile) : null;
+        }
 
         public void PlayTileChangeSound()
         {
-            _tileChangeSoundPlayer.Play();
+            _tileChangeSoundPlayer?.Play();
         }
 
         public void PlayWinnerSound()
         {
-            _winnerSoundPlayer.Play();
+            _winnerSoundPlayer?.Play();
         }
     }
 }

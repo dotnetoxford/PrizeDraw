@@ -9,10 +9,11 @@ using System.Timers;
 
 namespace PrizeDraw.ViewModels
 {
-    internal class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase
     {
         private readonly ITileProvider _tileProvider;
         private readonly ISoundEffects _soundEffects;
+        private readonly IMeetupComSyncDialog _meetupComSyncDialog;
 
         public enum ModeEnum
         {
@@ -71,10 +72,11 @@ namespace PrizeDraw.ViewModels
         private readonly Timer _timer;
         private DateTimeOffset _slowdownStartTime;
 
-        public MainWindowViewModel(ITileProvider tileProvider, ISoundEffects soundEffects)
+        public MainWindowViewModel(ITileProvider tileProvider, ISoundEffects soundEffects, IMeetupComSyncDialog meetupComSyncDialog)
         {
             _tileProvider = tileProvider;
             _soundEffects = soundEffects;
+            _meetupComSyncDialog = meetupComSyncDialog;
 
             _timer = new Timer();
         }
@@ -194,6 +196,11 @@ namespace PrizeDraw.ViewModels
             {
                 selectedTile.IsSelected = false;
             }
+        }
+
+        public void BeginUpdate(int eventId)
+        {
+            _meetupComSyncDialog.BeginUpdate(eventId);
         }
     }
 }

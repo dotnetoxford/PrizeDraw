@@ -7,6 +7,8 @@ namespace PrizeDraw
     /// </summary>
     public partial class RequestEventIdDialog : Window
     {
+        public int EventId { get; set; }
+
         public RequestEventIdDialog()
         {
             InitializeComponent();

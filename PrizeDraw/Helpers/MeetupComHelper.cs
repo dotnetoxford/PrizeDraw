@@ -1,11 +1,10 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace PrizeDraw.Helpers
 {
-    public class MeetupComHelper
+    public class MeetupComHelper : IMeetupComHelper
     {
         public async Task<string> GetEventApiPathAsync(HttpClient httpClient, int eventId)
         {

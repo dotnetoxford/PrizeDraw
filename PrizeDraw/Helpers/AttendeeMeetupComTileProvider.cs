@@ -12,12 +12,13 @@ namespace PrizeDraw.Helpers
 {
     public class AttendeeMeetupComTileProvider : ITileProvider
     {
+        private readonly IMeetupComHelper _meetupComHelper;
         private readonly int _eventId;
-        private readonly MeetupComHelper _meetupComHelper = new MeetupComHelper(); //(todo) Not happy with the new here. Should really have introduced an IoC container from the start. Will add a GitHub issue to refactor in Autofac
 
-        public AttendeeMeetupComTileProvider(int eventId)
+        public AttendeeMeetupComTileProvider(int eventId, IMeetupComHelper meetupComHelper)
         {
             _eventId = eventId;
+            _meetupComHelper = meetupComHelper;
         }
 
         public async Task<List<TileViewModel>> GetTilesAsync()

@@ -20,8 +20,6 @@ namespace PrizeDraw.Helpers
         {
             await Task.Yield();
 
-            var rand = new Random();
-
             if (!File.Exists(AttendeesFileName))
             {
                 return new List<TileViewModel>();

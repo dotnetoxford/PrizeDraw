@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
+using Autofac;
+using PrizeDraw.ViewModels;
 
 namespace PrizeDraw
 {
@@ -13,5 +9,18 @@ namespace PrizeDraw
     /// </summary>
     public partial class App : Application
     {
-    }
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            var container = Bootstrapper.Init();
+
+            var rootViewModel = container.Resolve<MainWindowViewModel>();
+            var mainWindow = container.Resolve<MainWindow>();
+
+            mainWindow.DataContext = rootViewModel;
+
+            mainWindow.Show();
+        }
+   }
 }

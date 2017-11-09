@@ -14,28 +14,27 @@ namespace PrizeDraw
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly IEventValidator _eventValidator;
         private const int WinnerTileTargetWidth = 800;
         private const int WinnerTileTargetHeight = 500;
+        private readonly MainWindowViewModel _viewModel;
 
-        public MainWindow()
+        public MainWindow(IEventValidator eventValidator, MainWindowViewModel viewModel)
         {
+            _eventValidator = eventValidator;
+            _viewModel = viewModel;
+
             InitializeComponent();
         }
 
         protected override async void OnInitialized(EventArgs e)
         {
-            var soundEffects = new WavSoundEffects();
-            var tileProvider = new AttendeeFileListTileProvider();
-            var vm = new MainWindowViewModel(tileProvider, soundEffects);
+            await _viewModel.InitAsync();
 
-            await vm.InitAsync();
-
-            InitialiseGrid(vm);
+            InitialiseGrid();
 
             KeyDown += MainWindow_KeyDown;
-            vm.OnWinnerSelected += OnWinnerSelected;
-
-            DataContext = vm;
+            _viewModel.OnWinnerSelected += OnWinnerSelected;
 
             base.OnInitialized(e);
         }
@@ -51,9 +50,7 @@ namespace PrizeDraw
                                        where t.ViewModel.AttendeeId == attendeeId
                                        select t).Single();
 
-            var vm = DataContext as MainWindowViewModel;
-
-            vm?.SaveWinnerDetails(selectedTileControl.ViewModel, false);
+            _viewModel.SaveWinnerDetails(selectedTileControl.ViewModel, false);
 
             InitializeAndBeginAnimation(selectedTileControl);
         }
@@ -131,15 +128,13 @@ namespace PrizeDraw
                 case Key.Space:
                 case Key.Next:
                 {
-                    var vm = DataContext as MainWindowViewModel;
-                    vm?.StartNextMode();
+                    _viewModel.StartNextMode();
                     break;
                 }
                 case Key.Escape:
                 case Key.B:
                 {
-                    var vm = DataContext as MainWindowViewModel;
-                    vm?.Restart();
+                    _viewModel.Restart();
 
                     while (Canvas.Children.Count > 0)
                     {
@@ -151,11 +146,9 @@ namespace PrizeDraw
                 case Key.Enter:
                 case Key.PageUp:
                 {
-                    var vm = DataContext as MainWindowViewModel;
-
-                    if (vm?.SelectedTile != null)
+                    if (_viewModel?.SelectedTile != null)
                     {
-                        vm.SaveWinnerDetails(vm.SelectedTile, true);
+                        _viewModel.SaveWinnerDetails(_viewModel.SelectedTile, true);
                     }
 
                     break;
@@ -165,17 +158,15 @@ namespace PrizeDraw
                     Hide();
 
                     // Ask user for an event id
-                    var vmEventIdDlg = new RequestEventIdDialogViewModel();
-                    var dlg = new RequestEventIdDialog {DataContext = vmEventIdDlg};
+                    var dlg = new RequestEventIdDialog();
                     if (dlg.ShowDialog() != true)
                     {
                         return;
                     }
 
-                    var eventValidator = new MeetupComEventValidator();
-                    await eventValidator.InitAsync(vmEventIdDlg.EventId);
+                    await _eventValidator.InitAsync(dlg.EventId);
 
-                    if (!eventValidator.IsEventDateToday())
+                    if (!_eventValidator.IsEventDateToday())
                     {
                         if (MessageBox.Show("This event isn't for today. Are you sure you have the correct event id?", "Event not today", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
                         {
@@ -183,14 +174,9 @@ namespace PrizeDraw
                         }
                     }
 
-                    var sourceTileProvider = new AttendeeMeetupComTileProvider(vmEventIdDlg.EventId);
-                    var targetTileProvider = new AttendeeFileListTileProvider();
-                    var dialogServer = new DialogService();
-
                     Canvas.Children.RemoveRange(0, Canvas.Children.Count);
 
-                    var wnd = new MeetupDotComSync {DataContext = new MeetupDotComSyncViewModel(sourceTileProvider, targetTileProvider, dialogServer)};
-                    wnd.ShowDialog();
+                    _viewModel.BeginUpdate(dlg.EventId);
 
                     Close();
 
@@ -199,19 +185,19 @@ namespace PrizeDraw
             }
         }
 
-        private void InitialiseGrid(MainWindowViewModel vm)
+        private void InitialiseGrid()
         {
-            if (!vm.Tiles.Any())
+            if (!_viewModel.Tiles.Any())
             {
                 return;
             }
 
-            for(var x = 0; x < vm.NumColumns; x++)
+            for(var x = 0; x < _viewModel.NumColumns; x++)
             {
                 TileGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             }
 
-            var numRows = (int)Math.Ceiling((decimal)vm.Tiles.Count / vm.NumColumns);
+            var numRows = (int)Math.Ceiling((decimal)_viewModel.Tiles.Count / _viewModel.NumColumns);
 
             for (var y = 0; y < numRows; y++)
             {
@@ -220,11 +206,11 @@ namespace PrizeDraw
 
             var n = 0;
 
-            foreach (var tile in vm.Tiles)
+            foreach (var tile in _viewModel.Tiles)
             {
                 var ucTile = new TileUserControl(tile);
-                ucTile.SetValue(Grid.RowProperty, n / vm.NumColumns);
-                ucTile.SetValue(Grid.ColumnProperty, n % vm.NumColumns);
+                ucTile.SetValue(Grid.RowProperty, n / _viewModel.NumColumns);
+                ucTile.SetValue(Grid.ColumnProperty, n % _viewModel.NumColumns);
 
                 TileGrid.Children.Insert(0, ucTile);
 

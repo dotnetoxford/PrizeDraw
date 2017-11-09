@@ -8,9 +8,13 @@ namespace PrizeDraw.Helpers
 {
     public class MeetupComEventValidator : IEventValidator
     {
+        private readonly IMeetupComHelper _meetupComHelper;
         private Event _eventInfo;
 
-        private readonly MeetupComHelper meetupComHelper = new MeetupComHelper();
+        public MeetupComEventValidator(IMeetupComHelper meetupComHelper)
+        {
+            _meetupComHelper = meetupComHelper;
+        }
 
         public async Task InitAsync(int eventId)
         {
@@ -18,7 +22,7 @@ namespace PrizeDraw.Helpers
             {
                 client.BaseAddress = new Uri("https://api.meetup.com");
 
-                var apiPath = $"{await meetupComHelper.GetEventApiPathAsync(client, eventId)}";
+                var apiPath = $"{await _meetupComHelper.GetEventApiPathAsync(client, eventId)}";
 
                 var response = await client.GetAsync(apiPath);
 
