@@ -47,4 +47,4 @@ There are two sound effects ...
 1. A knocking sound each time the selected tile changes.
 1. A fanfare sound when the selected tile lands on the winner.
 
-You can change these sound effects by just swapping out the .wav files in the `Media` folder. Or delete them if you prefer not to have them.
+These are disabled by default. You can easily enable them by renaming the wav files in the `Media` folder. Or you can switch them out with other wav files. See the `readme.md` file in the `Media` folder.
