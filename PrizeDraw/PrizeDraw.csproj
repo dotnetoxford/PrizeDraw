@@ -185,6 +185,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy $(ProjectDir)\Media\*.wav $(TargetDir)\Media\</PostBuildEvent>
+    <PostBuildEvent>xcopy /Y $(ProjectDir)Media\*.wav $(TargetDir)Media\</PostBuildEvent>
   </PropertyGroup>
 </Project>
