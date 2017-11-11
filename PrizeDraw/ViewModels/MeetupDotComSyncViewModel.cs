@@ -8,18 +8,18 @@ namespace PrizeDraw.ViewModels
 {
     public class MeetupDotComSyncViewModel : ViewModelBase
     {
-        private readonly ITileProvider _sourceTileProvider;
-        private readonly ITileProvider _targetTileProvider;
+        private readonly ITileProviderFactory _tileProviderFactory;
         private readonly IDialogService _dialogService;
 
         public string ButtonText => _syncInProgress ? "Please wait ..." : "Download Attendees from Meetup.com";
 
+        public int EventId { get; set; }
+
         private bool _syncInProgress;
 
-        public MeetupDotComSyncViewModel(ITileProvider sourceTileProvider, ITileProvider targetTileProvider, IDialogService dialogService)
+        public MeetupDotComSyncViewModel(ITileProviderFactory tileProviderFactory, IDialogService dialogService)
         {
-            _sourceTileProvider = sourceTileProvider;
-            _targetTileProvider = targetTileProvider;
+            _tileProviderFactory = tileProviderFactory;
             _dialogService = dialogService;
         }
 
@@ -32,8 +32,11 @@ namespace PrizeDraw.ViewModels
 
             try
             {
-                var tiles = await _sourceTileProvider.GetTilesAsync();
-                await _targetTileProvider.SaveTilesAsync(tiles);
+                var sourceTileProvider = _tileProviderFactory.CreateMeetupComTileProvider(EventId);
+                var targetTileProvider = _tileProviderFactory.CreateFileTileProvider();
+
+                var tiles = await sourceTileProvider.GetTilesAsync();
+                await targetTileProvider.SaveTilesAsync(tiles);
 
                 await _dialogService.ShowMessageBox("Synchronization Successful - please restart the app to use this data", "Meetup.com Download");
 

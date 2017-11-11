@@ -217,5 +217,13 @@ namespace PrizeDraw
                 n++;
             }
         }
+
+        // Explicit shutdown requires due to the Autofac setup
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+
+            Application.Current.Shutdown();
+        }
     }
 }

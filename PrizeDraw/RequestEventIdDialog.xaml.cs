@@ -18,8 +18,16 @@ namespace PrizeDraw
 
         private void OkayButton_OnClick(object sender, RoutedEventArgs e)
         {
-            DialogResult = true;
-            Close();
+            if (int.TryParse(tbEventId.Text, out var eventId))
+            {
+                EventId = eventId;
+                DialogResult = true;
+                Close();
+            }
+            else
+            {
+                MessageBox.Show("Invalid event id", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
     }
 }
