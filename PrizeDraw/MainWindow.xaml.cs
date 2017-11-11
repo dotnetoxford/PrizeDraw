@@ -135,6 +135,7 @@ namespace PrizeDraw
                 case Key.B:
                 {
                     _viewModel.Restart();
+                    _viewModel.Tiles.Remove(_viewModel.SelectedTile);
 
                     while (Canvas.Children.Count > 0)
                     {
