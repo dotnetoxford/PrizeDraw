@@ -133,7 +133,7 @@ namespace PrizeDraw
                 }
                 case Key.Escape:
                 case Key.B:
-                {                  
+                {
                     _viewModel.Restart();
 
                     while (Canvas.Children.Count > 0)
