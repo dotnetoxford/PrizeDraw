@@ -135,7 +135,6 @@ namespace PrizeDraw
                 case Key.B:
                 {                  
                     _viewModel.Restart();
-                    _viewModel.Tiles.Remove(_viewModel.SelectedTile);
 
                     while (Canvas.Children.Count > 0)
                     {
@@ -164,8 +163,6 @@ namespace PrizeDraw
                     {
                         return;
                     }
-
-                        //var i = dlg.EventId;
 
                     await _eventValidator.InitAsync(dlg.EventId);
 
