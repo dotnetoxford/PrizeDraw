@@ -45,14 +45,14 @@ namespace PrizeDraw.ViewModels
             BitmapImage = LoadBitmap(image);
         }
 
-        public void LoadWinnerImage(string imageFolder)
+        public void LoadWinnerImage()
         {
             var image = @"Images/winner.png";
 
             BitmapImage = LoadBitmap(image);
         }
 
-        public void LoadNoshowImage(string imageFolder)
+        public void LoadNoshowImage()
         {
             var image = @"Images/noshow.png";
 

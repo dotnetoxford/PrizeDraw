@@ -20,7 +20,6 @@ namespace PrizeDraw
         private const int WinnerTileTargetHeight = 500;
         private readonly MainWindowViewModel _viewModel;
         private static string AppFolder => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PrizeDraw");
-        private static string imageFolder => Path.Combine(AppFolder, "Images");
 
         public MainWindow(IEventValidator eventValidator, MainWindowViewModel viewModel)
         {
@@ -146,7 +145,7 @@ namespace PrizeDraw
                         {
                             _viewModel.SelectedTile.IsWinner = false;
                             _viewModel.SelectedTile.IsDrawn = true;
-                            _viewModel.SelectedTile.LoadNoshowImage(imageFolder);
+                            _viewModel.SelectedTile.LoadNoshowImage();
                         }
 
                         // Can we replace the tile with the VieUserControl
@@ -169,7 +168,7 @@ namespace PrizeDraw
                             _viewModel.SelectedTile.IsWinner = true;
                             _viewModel.SelectedTile.IsDrawn = true;
                             // set the winner image
-                            _viewModel.SelectedTile.LoadWinnerImage(imageFolder);
+                            _viewModel.SelectedTile.LoadWinnerImage();
                             _viewModel.SaveWinnerDetails(_viewModel.SelectedTile, true);
                         }
 
