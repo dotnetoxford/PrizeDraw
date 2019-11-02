@@ -14,6 +14,20 @@ namespace PrizeDraw.ViewModels
         public SolidColorBrush Color { get; }
         public string RemoteImageUri;
         public BitmapImage BitmapImage { get; private set; }
+        private bool _isDrawn = false;
+        private bool _isWinner = false;
+
+        public bool IsWinner
+        {
+            get => _isWinner;
+            set
+            {
+                _isWinner = value;
+                _isDrawn = true;
+            }
+        }
+
+        public bool IsDrawn => _isDrawn;
 
         public TileViewModel(string name, int attendeeId, string remoteImageUri, SolidColorBrush color)
         {
@@ -28,12 +42,33 @@ namespace PrizeDraw.ViewModels
             var imagePath = Path.Combine(imageFolder, AttendeeId + ".jpg");
             var image = File.Exists(imagePath) ? imagePath : @"Images/NoPhoto.png";
 
-            BitmapImage = new BitmapImage();
-            BitmapImage.BeginInit();
-            BitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-            BitmapImage.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
-            BitmapImage.UriSource = new Uri(image, UriKind.RelativeOrAbsolute);
-            BitmapImage.EndInit();
+            BitmapImage = LoadBitmap(image);
+        }
+
+        public void LoadWinnerImage(string imageFolder)
+        {
+            var image = @"Images/winner.png";
+
+            BitmapImage = LoadBitmap(image);
+        }
+
+        public void LoadNoshowImage(string imageFolder)
+        {
+            var image = @"Images/noshow.png";
+
+            BitmapImage = LoadBitmap(image);
+        }
+
+        private BitmapImage LoadBitmap(string image)
+        {
+            var bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+            bitmap.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+            bitmap.UriSource = new Uri(image, UriKind.RelativeOrAbsolute);
+            bitmap.EndInit();
+
+            return bitmap;
         }
 
         private bool _isSelected;

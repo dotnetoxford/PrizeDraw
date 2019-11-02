@@ -6,6 +6,7 @@ using System.Linq;
 using PrizeDraw.Helpers;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
+using System.IO;
 
 namespace PrizeDraw
 {
@@ -18,6 +19,8 @@ namespace PrizeDraw
         private const int WinnerTileTargetWidth = 800;
         private const int WinnerTileTargetHeight = 500;
         private readonly MainWindowViewModel _viewModel;
+        private static string AppFolder => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PrizeDraw");
+        private static string imageFolder => Path.Combine(AppFolder, "Images");
 
         public MainWindow(IEventValidator eventValidator, MainWindowViewModel viewModel)
         {
@@ -55,6 +58,11 @@ namespace PrizeDraw
             InitializeAndBeginAnimation(selectedTileControl);
         }
 
+        /// <summary>
+        /// Begins the animation when a tile is selected as a 'winner' of the draw.
+        /// This adds a new item to the canvas.
+        /// </summary>
+        /// <param name="selectedTileControl"></param>
         private void InitializeAndBeginAnimation(TileUserControl selectedTileControl)
         {
             var absoluteTilePosition = selectedTileControl.TransformToAncestor(this).Transform(new Point(0, 0));
@@ -62,10 +70,10 @@ namespace PrizeDraw
             var tileViewModel = selectedTileControl.DataContext as TileViewModel;
 
             var selectedTile = new TileUserControl(tileViewModel)
-                               {
-                                   Width = selectedTileControl.ActualWidth,
-                                   Height = selectedTileControl.ActualHeight
-                               };
+            {
+                Width = selectedTileControl.ActualWidth,
+                Height = selectedTileControl.ActualHeight
+            };
 
             Canvas.SetLeft(selectedTile, absoluteTilePosition.X);
             Canvas.SetTop(selectedTile, absoluteTilePosition.Y);
@@ -74,32 +82,32 @@ namespace PrizeDraw
             var targetYPos = ActualHeight * 0.5d - WinnerTileTargetHeight * 0.5d;
 
             var animWidth = new DoubleAnimation
-                       {
-                           From = selectedTile.Width,
-                           To = 800,
-                           Duration = new Duration(TimeSpan.FromSeconds(2))
-                       };
+            {
+                From = selectedTile.Width,
+                To = 800,
+                Duration = new Duration(TimeSpan.FromSeconds(2))
+            };
 
             var animHeight = new DoubleAnimation
-                       {
-                           From = selectedTile.Height,
-                           To = 500,
-                           Duration = new Duration(TimeSpan.FromSeconds(2))
-                       };
+            {
+                From = selectedTile.Height,
+                To = 500,
+                Duration = new Duration(TimeSpan.FromSeconds(2))
+            };
 
             var animXPos = new DoubleAnimation
-                       {
-                           From = absoluteTilePosition.X,
-                           To = targetXPos,
-                           Duration = new Duration(TimeSpan.FromSeconds(2))
-                       };
+            {
+                From = absoluteTilePosition.X,
+                To = targetXPos,
+                Duration = new Duration(TimeSpan.FromSeconds(2))
+            };
 
             var animYPos = new DoubleAnimation
-                       {
-                           From = absoluteTilePosition.Y,
-                           To = targetYPos,
-                           Duration = new Duration(TimeSpan.FromSeconds(2))
-                       };
+            {
+                From = absoluteTilePosition.Y,
+                To = targetYPos,
+                Duration = new Duration(TimeSpan.FromSeconds(2))
+            };
 
             Storyboard.SetTarget(animWidth, selectedTile);
             Storyboard.SetTarget(animHeight, selectedTile);
@@ -127,61 +135,73 @@ namespace PrizeDraw
             {
                 case Key.Space:
                 case Key.Next:
-                {
-                    _viewModel.StartNextMode();
-                    break;
-                }
+                    {
+                        _viewModel.StartNextMode();
+                        break;
+                    }
                 case Key.Escape:
                 case Key.B:
-                {
-                    _viewModel.Restart();
-
-                    while (Canvas.Children.Count > 0)
                     {
-                        Canvas.Children.Remove(Canvas.Children[0]);
-                    }
+                        if (_viewModel?.SelectedTile != null)
+                        {
+                            _viewModel.SelectedTile.IsWinner = false;
+                            _viewModel.SelectedTile.LoadNoshowImage(imageFolder);
+                        }
 
-                    break;
-                }
+                        // Can we replace the tile with the VieUserControl
+
+
+                        _viewModel.Restart();
+
+                        while (Canvas.Children.Count > 0)
+                        {
+                            Canvas.Children.Remove(Canvas.Children[0]);
+                        }
+
+                        break;
+                    }
                 case Key.Enter:
                 case Key.PageUp:
-                {
-                    if (_viewModel?.SelectedTile != null)
                     {
-                        _viewModel.SaveWinnerDetails(_viewModel.SelectedTile, true);
-                    }
+                        if (_viewModel?.SelectedTile != null)
+                        {
+                            _viewModel.SelectedTile.IsWinner = true;
+                            // set the winner image
+                            _viewModel.SelectedTile.LoadWinnerImage(imageFolder);
+                            _viewModel.SaveWinnerDetails(_viewModel.SelectedTile, true);
+                        }
 
-                    break;
-                }
+                        break;
+                    }
                 case Key.F5:
-                {
-                    Hide();
-
-                    // Ask user for an event id
-                    var dlg = new RequestEventIdDialog();
-                    if (dlg.ShowDialog() != true)
                     {
-                        return;
-                    }
+                        Hide();
 
-                    await _eventValidator.InitAsync(dlg.EventId);
-
-                    if (!_eventValidator.IsEventDateToday())
-                    {
-                        if (MessageBox.Show("This event isn't for today. Are you sure you have the correct event id?", "Event not today", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                        // Ask user for an event id
+                        var dlg = new RequestEventIdDialog();
+                        if (dlg.ShowDialog() != true)
                         {
                             return;
                         }
+
+                        await _eventValidator.InitAsync(dlg.EventId);
+
+                        if (!_eventValidator.IsEventDateToday())
+                        {
+                            if (MessageBox.Show("This event isn't for today. Are you sure you have the correct event id?", "Event not today", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                            {
+                                return;
+                            }
+                        }
+
+                        Canvas.Children.RemoveRange(0, Canvas.Children.Count);
+
+                        _viewModel.BeginUpdate(dlg.EventId);
+
+                        Close();
+
+                        break;
                     }
-
-                    Canvas.Children.RemoveRange(0, Canvas.Children.Count);
-
-                    _viewModel.BeginUpdate(dlg.EventId);
-
-                    Close();
-
-                    break;
-                }
             }
         }
 
@@ -192,7 +212,7 @@ namespace PrizeDraw
                 return;
             }
 
-            for(var x = 0; x < _viewModel.NumColumns; x++)
+            for (var x = 0; x < _viewModel.NumColumns; x++)
             {
                 TileGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             }
