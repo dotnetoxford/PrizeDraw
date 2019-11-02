@@ -20,14 +20,14 @@ namespace PrizeDraw.ViewModels
         public bool IsWinner
         {
             get => _isWinner;
-            set
-            {
-                _isWinner = value;
-                _isDrawn = true;
-            }
+            set => _isWinner = value;
         }
 
-        public bool IsDrawn => _isDrawn;
+        public bool IsDrawn
+        {
+            get => _isDrawn;
+            set => _isDrawn = value;
+        }
 
         public TileViewModel(string name, int attendeeId, string remoteImageUri, SolidColorBrush color)
         {

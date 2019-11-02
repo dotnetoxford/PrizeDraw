@@ -145,6 +145,7 @@ namespace PrizeDraw
                         if (_viewModel?.SelectedTile != null)
                         {
                             _viewModel.SelectedTile.IsWinner = false;
+                            _viewModel.SelectedTile.IsDrawn = true;
                             _viewModel.SelectedTile.LoadNoshowImage(imageFolder);
                         }
 
@@ -166,6 +167,7 @@ namespace PrizeDraw
                         if (_viewModel?.SelectedTile != null)
                         {
                             _viewModel.SelectedTile.IsWinner = true;
+                            _viewModel.SelectedTile.IsDrawn = true;
                             // set the winner image
                             _viewModel.SelectedTile.LoadWinnerImage(imageFolder);
                             _viewModel.SaveWinnerDetails(_viewModel.SelectedTile, true);
