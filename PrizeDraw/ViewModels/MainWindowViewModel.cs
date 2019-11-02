@@ -144,8 +144,6 @@ namespace PrizeDraw.ViewModels
 
         private void HandleTimer()
         {
-            // to randomise the tiles. Any tile drawn has the attendee id removed. pressing Enter
-            // marks the attendee as a winner, pressing escape marks them as a no-show.
             if (_mode == ModeEnum.Slowdown && _timer.Interval > MaxSlowdownInterval.TotalMilliseconds) // Winning tile!
             {
                 _soundEffects.PlayWinnerSound();
@@ -161,7 +159,7 @@ namespace PrizeDraw.ViewModels
             }
 
             var rand = new Random();
-            var availableTiles = Tiles.ToList().Where(t => !t.IsDrawn).ToList();
+            var availableTiles = Tiles.Where(t => !t.IsDrawn).ToList();
             var randomTileIndex = rand.Next(0, availableTiles.Count());
 
             SelectedTile = availableTiles[randomTileIndex];
