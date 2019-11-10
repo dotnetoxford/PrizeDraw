@@ -6,7 +6,6 @@ using System.Linq;
 using PrizeDraw.Helpers;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
-using System.IO;
 
 namespace PrizeDraw
 {
@@ -19,7 +18,6 @@ namespace PrizeDraw
         private const int WinnerTileTargetWidth = 800;
         private const int WinnerTileTargetHeight = 500;
         private readonly MainWindowViewModel _viewModel;
-        private static string AppFolder => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PrizeDraw");
 
         public MainWindow(IEventValidator eventValidator, MainWindowViewModel viewModel)
         {
@@ -43,7 +41,7 @@ namespace PrizeDraw
 
         private void OnWinnerSelected(object sender, WinnerSelectedEventArgs eventArgs)
         {
-            Application.Current.Dispatcher.Invoke(() => WinnerSelected(eventArgs.AttendeeId));
+            Application.Current.Dispatcher?.Invoke(() => WinnerSelected(eventArgs.AttendeeId));
         }
 
         private void WinnerSelected(int attendeeId)
@@ -134,75 +132,70 @@ namespace PrizeDraw
             {
                 case Key.Space:
                 case Key.Next:
-                    {
-                        _viewModel.StartNextMode();
-                        break;
-                    }
+                {
+                    _viewModel.StartNextMode();
+                    break;
+                }
                 case Key.Escape:
                 case Key.B:
-                    {
-                        if (_viewModel?.SelectedTile != null)
-                        {
-                            _viewModel.SelectedTile.IsWinner = false;
-                            _viewModel.SelectedTile.IsDrawn = true;
-                            _viewModel.SelectedTile.LoadNoshowImage();
-                        }
+                {
+                    if (_viewModel?.SelectedTile != null)
+                        _viewModel.SelectedTile.IsNoShow = true;
 
-                        // Can we replace the tile with the VieUserControl
+                    _viewModel?.Restart();
 
+                    while (Canvas.Children.Count > 0)
+                        Canvas.Children.Remove(Canvas.Children[0]);
 
-                        _viewModel.Restart();
-
-                        while (Canvas.Children.Count > 0)
-                        {
-                            Canvas.Children.Remove(Canvas.Children[0]);
-                        }
-
-                        break;
-                    }
+                    break;
+                }
                 case Key.Enter:
                 case Key.PageUp:
+                {
+                    if (_viewModel?.SelectedTile != null)
                     {
-                        if (_viewModel?.SelectedTile != null)
-                        {
-                            _viewModel.SelectedTile.IsWinner = true;
-                            _viewModel.SelectedTile.IsDrawn = true;
-                            // set the winner image
-                            _viewModel.SelectedTile.LoadWinnerImage();
-                            _viewModel.SaveWinnerDetails(_viewModel.SelectedTile, true);
-                        }
+                        _viewModel.SelectedTile.IsWinner = true;
 
-                        break;
+                        // Set the winner image
+                        _viewModel.SaveWinnerDetails(_viewModel.SelectedTile, true);
                     }
-                case Key.F5:
-                    {
-                        Hide();
 
-                        // Ask user for an event id
-                        var dlg = new RequestEventIdDialog();
-                        if (dlg.ShowDialog() != true)
+                    _viewModel?.Restart();
+
+                    while (Canvas.Children.Count > 0)
+                        Canvas.Children.Remove(Canvas.Children[0]);
+
+                    break;
+                }
+                case Key.F5:
+                {
+                    Hide();
+
+                    // Ask user for an event id
+                    var dlg = new RequestEventIdDialog();
+                    if (dlg.ShowDialog() != true)
+                    {
+                        return;
+                    }
+
+                    await _eventValidator.InitAsync(dlg.EventId);
+
+                    if (!_eventValidator.IsEventDateToday())
+                    {
+                        if (MessageBox.Show("This event isn't for today. Are you sure you have the correct event id?", "Event not today", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
                         {
                             return;
                         }
-
-                        await _eventValidator.InitAsync(dlg.EventId);
-
-                        if (!_eventValidator.IsEventDateToday())
-                        {
-                            if (MessageBox.Show("This event isn't for today. Are you sure you have the correct event id?", "Event not today", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
-                            {
-                                return;
-                            }
-                        }
-
-                        Canvas.Children.RemoveRange(0, Canvas.Children.Count);
-
-                        _viewModel.BeginUpdate(dlg.EventId);
-
-                        Close();
-
-                        break;
                     }
+
+                    Canvas.Children.RemoveRange(0, Canvas.Children.Count);
+
+                    _viewModel.BeginUpdate(dlg.EventId);
+
+                    Close();
+
+                    break;
+                }
             }
         }
 

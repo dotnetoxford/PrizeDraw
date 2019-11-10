@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using GalaSoft.MvvmLight;
@@ -14,20 +13,9 @@ namespace PrizeDraw.ViewModels
         public SolidColorBrush Color { get; }
         public string RemoteImageUri;
         public BitmapImage BitmapImage { get; private set; }
-        private bool _isDrawn = false;
-        private bool _isWinner = false;
 
-        public bool IsWinner
-        {
-            get => _isWinner;
-            set => _isWinner = value;
-        }
-
-        public bool IsDrawn
-        {
-            get => _isDrawn;
-            set => _isDrawn = value;
-        }
+        public bool IsAvailable => !IsSelected;
+        public bool IsAvailableAndNotSelected => IsAvailable && !IsNoShow && !IsWinner;
 
         public TileViewModel(string name, int attendeeId, string remoteImageUri, SolidColorBrush color)
         {
@@ -41,20 +29,6 @@ namespace PrizeDraw.ViewModels
         {
             var imagePath = Path.Combine(imageFolder, AttendeeId + ".jpg");
             var image = File.Exists(imagePath) ? imagePath : @"Images/NoPhoto.png";
-
-            BitmapImage = LoadBitmap(image);
-        }
-
-        public void LoadWinnerImage()
-        {
-            var image = @"Images/winner.png";
-
-            BitmapImage = LoadBitmap(image);
-        }
-
-        public void LoadNoshowImage()
-        {
-            var image = @"Images/noshow.png";
 
             BitmapImage = LoadBitmap(image);
         }
@@ -78,11 +52,39 @@ namespace PrizeDraw.ViewModels
             set
             {
                 Set(nameof(IsSelected), ref _isSelected, value);
-                // ReSharper disable once ExplicitCallerInfoArgument
-                RaisePropertyChanged(nameof(IsNotSelected));
+                RaisePropertyChanged(nameof(IsAvailableAndNotSelected));
+                RaisePropertyChanged(nameof(IsSelected));
             }
         }
 
-        public bool IsNotSelected => !IsSelected;
+        private bool _isWinner;
+
+        public bool IsWinner
+        {
+            get => _isWinner;
+            set
+            {
+                Set(nameof(IsWinner), ref _isWinner, value);
+                RaisePropertyChanged(nameof(IsAvailableAndNotSelected));
+                RaisePropertyChanged(nameof(IsSelected));
+                RaisePropertyChanged(nameof(IsNoShow));
+                RaisePropertyChanged(nameof(IsWinner));
+            }
+        }
+
+        private bool _isNoShow;
+
+        public bool IsNoShow
+        {
+            get => _isNoShow;
+            set
+            {
+                Set(nameof(IsNoShow), ref _isNoShow, value);
+                RaisePropertyChanged(nameof(IsAvailableAndNotSelected));
+                RaisePropertyChanged(nameof(IsSelected));
+                RaisePropertyChanged(nameof(IsNoShow));
+                RaisePropertyChanged(nameof(IsWinner));
+            }
+        }
     }
 }
