@@ -41,7 +41,7 @@ namespace PrizeDraw
 
         private void OnWinnerSelected(object sender, WinnerSelectedEventArgs eventArgs)
         {
-            Application.Current.Dispatcher.Invoke(() => WinnerSelected(eventArgs.AttendeeId));
+            Application.Current.Dispatcher?.Invoke(() => WinnerSelected(eventArgs.AttendeeId));
         }
 
         private void WinnerSelected(int attendeeId)
@@ -55,6 +55,11 @@ namespace PrizeDraw
             InitializeAndBeginAnimation(selectedTileControl);
         }
 
+        /// <summary>
+        /// Begins the animation when a tile is selected as a 'winner' of the draw.
+        /// This adds a new item to the canvas.
+        /// </summary>
+        /// <param name="selectedTileControl"></param>
         private void InitializeAndBeginAnimation(TileUserControl selectedTileControl)
         {
             var absoluteTilePosition = selectedTileControl.TransformToAncestor(this).Transform(new Point(0, 0));
@@ -62,10 +67,10 @@ namespace PrizeDraw
             var tileViewModel = selectedTileControl.DataContext as TileViewModel;
 
             var selectedTile = new TileUserControl(tileViewModel)
-                               {
-                                   Width = selectedTileControl.ActualWidth,
-                                   Height = selectedTileControl.ActualHeight
-                               };
+            {
+                Width = selectedTileControl.ActualWidth,
+                Height = selectedTileControl.ActualHeight
+            };
 
             Canvas.SetLeft(selectedTile, absoluteTilePosition.X);
             Canvas.SetTop(selectedTile, absoluteTilePosition.Y);
@@ -74,32 +79,32 @@ namespace PrizeDraw
             var targetYPos = ActualHeight * 0.5d - WinnerTileTargetHeight * 0.5d;
 
             var animWidth = new DoubleAnimation
-                       {
-                           From = selectedTile.Width,
-                           To = 800,
-                           Duration = new Duration(TimeSpan.FromSeconds(2))
-                       };
+            {
+                From = selectedTile.Width,
+                To = 800,
+                Duration = new Duration(TimeSpan.FromSeconds(2))
+            };
 
             var animHeight = new DoubleAnimation
-                       {
-                           From = selectedTile.Height,
-                           To = 500,
-                           Duration = new Duration(TimeSpan.FromSeconds(2))
-                       };
+            {
+                From = selectedTile.Height,
+                To = 500,
+                Duration = new Duration(TimeSpan.FromSeconds(2))
+            };
 
             var animXPos = new DoubleAnimation
-                       {
-                           From = absoluteTilePosition.X,
-                           To = targetXPos,
-                           Duration = new Duration(TimeSpan.FromSeconds(2))
-                       };
+            {
+                From = absoluteTilePosition.X,
+                To = targetXPos,
+                Duration = new Duration(TimeSpan.FromSeconds(2))
+            };
 
             var animYPos = new DoubleAnimation
-                       {
-                           From = absoluteTilePosition.Y,
-                           To = targetYPos,
-                           Duration = new Duration(TimeSpan.FromSeconds(2))
-                       };
+            {
+                From = absoluteTilePosition.Y,
+                To = targetYPos,
+                Duration = new Duration(TimeSpan.FromSeconds(2))
+            };
 
             Storyboard.SetTarget(animWidth, selectedTile);
             Storyboard.SetTarget(animHeight, selectedTile);
@@ -134,12 +139,13 @@ namespace PrizeDraw
                 case Key.Escape:
                 case Key.B:
                 {
-                    _viewModel.Restart();
+                    if (_viewModel?.SelectedTile != null)
+                        _viewModel.SelectedTile.IsNoShow = true;
+
+                    _viewModel?.Restart();
 
                     while (Canvas.Children.Count > 0)
-                    {
                         Canvas.Children.Remove(Canvas.Children[0]);
-                    }
 
                     break;
                 }
@@ -148,8 +154,16 @@ namespace PrizeDraw
                 {
                     if (_viewModel?.SelectedTile != null)
                     {
+                        _viewModel.SelectedTile.IsWinner = true;
+
+                        // Set the winner image
                         _viewModel.SaveWinnerDetails(_viewModel.SelectedTile, true);
                     }
+
+                    _viewModel?.Restart();
+
+                    while (Canvas.Children.Count > 0)
+                        Canvas.Children.Remove(Canvas.Children[0]);
 
                     break;
                 }
@@ -192,7 +206,7 @@ namespace PrizeDraw
                 return;
             }
 
-            for(var x = 0; x < _viewModel.NumColumns; x++)
+            for (var x = 0; x < _viewModel.NumColumns; x++)
             {
                 TileGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             }

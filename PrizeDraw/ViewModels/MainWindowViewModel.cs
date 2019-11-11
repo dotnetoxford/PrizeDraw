@@ -159,13 +159,11 @@ namespace PrizeDraw.ViewModels
             }
 
             var rand = new Random();
+            var availableTiles = Tiles.Where(t => t.IsAvailable).ToList();
+            var randomTileIndex = rand.Next(0, availableTiles.Count);
 
-            var randomTileIndex = rand.Next(0, Tiles.Count);
-
-            SelectedTile = Tiles[randomTileIndex];
-
+            SelectedTile = availableTiles[randomTileIndex];
             _timer.Interval = GetCurrentTimerInterval();
-
             _soundEffects.PlayTileChangeSound();
         }
 
