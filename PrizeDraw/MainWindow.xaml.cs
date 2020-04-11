@@ -6,6 +6,7 @@ using System.Linq;
 using PrizeDraw.Helpers;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
+using PrizeDraw.Enums;
 
 namespace PrizeDraw
 {
@@ -176,11 +177,14 @@ namespace PrizeDraw
                     if (new RequestEventIdDialog(requestEventIdViewModel).ShowDialog() != true)
                         return;
 
-                    await _eventValidator.InitAsync(requestEventIdViewModel.EventId);
+                    if (requestEventIdViewModel.EventType == EventType.Meetup)
+                    {
+                        await _eventValidator.InitAsync(requestEventIdViewModel.EventId);
 
-                    if (!_eventValidator.IsEventDateToday())
-                        if (MessageBox.Show("This event isn't for today. Are you sure you have the correct event id?", "Event not today", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
-                            return;
+                        if (!_eventValidator.IsEventDateToday())
+                            if (MessageBox.Show("This event isn't for today. Are you sure you have the correct event id?", "Event not today", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                                return;
+                    }
 
                     Canvas.Children.RemoveRange(0, Canvas.Children.Count);
 
