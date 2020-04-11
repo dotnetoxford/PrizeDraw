@@ -17,6 +17,7 @@ namespace PrizeDraw
             builder.RegisterType<MeetupComSyncDialog>().As<IMeetupComSyncDialog>();
             builder.RegisterType<MeetupDotComSync>();
             builder.RegisterType<MeetupDotComSyncViewModel>();
+            builder.RegisterType<RequestEventIdDialogViewModel>();
 
             builder.RegisterType<TileProviderFactory>().As<ITileProviderFactory>().SingleInstance();
             builder.RegisterType<WavSoundEffects>().As<ISoundEffects>().SingleInstance();

@@ -172,25 +172,19 @@ namespace PrizeDraw
                     Hide();
 
                     // Ask user for an event id
-                    var dlg = new RequestEventIdDialog();
-                    if (dlg.ShowDialog() != true)
-                    {
+                    var requestEventIdViewModel = new RequestEventIdDialogViewModel();
+                    if (new RequestEventIdDialog(requestEventIdViewModel).ShowDialog() != true)
                         return;
-                    }
 
-                    await _eventValidator.InitAsync(dlg.EventId);
+                    await _eventValidator.InitAsync(requestEventIdViewModel.EventId);
 
                     if (!_eventValidator.IsEventDateToday())
-                    {
                         if (MessageBox.Show("This event isn't for today. Are you sure you have the correct event id?", "Event not today", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
-                        {
                             return;
-                        }
-                    }
 
                     Canvas.Children.RemoveRange(0, Canvas.Children.Count);
 
-                    _viewModel.BeginUpdate(dlg.EventId);
+                    _viewModel.BeginUpdate(requestEventIdViewModel.EventId);
 
                     Close();
 
