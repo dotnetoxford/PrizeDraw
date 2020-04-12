@@ -23,15 +23,15 @@ namespace PrizeDraw.Helpers
 
             foreach(var attendee in GetAttendees(_eventId.ToString()))
                 if (attendee.JoinTime != null)
-                    dic[attendee.UserId] = attendee.UserName;
-                else
-                    dic.Remove(attendee.UserId);
+                    dic[attendee.UserUuid] = attendee.UserName;
+                 else
+                     dic.Remove(attendee.UserUuid);
 
             var rand = new Random();
 
             return Task.FromResult(dic.Select(x => new TileViewModel(
                 name: x.Value,
-                attendeeId: int.Parse(x.Key),
+                attendeeId: x.Key,
                 remoteImageUri: null, //x.member.photo?.highres_link ?? x.member.photo?.photo_link,
                 color: new SolidColorBrush(Color.FromRgb((byte)rand.Next(100, 256),
                                                           (byte)rand.Next(100, 256),

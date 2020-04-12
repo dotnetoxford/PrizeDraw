@@ -47,7 +47,7 @@ namespace PrizeDraw
             Application.Current.Dispatcher?.Invoke(() => WinnerSelected(eventArgs.AttendeeId));
         }
 
-        private void WinnerSelected(int attendeeId)
+        private void WinnerSelected(string attendeeId)
         {
             var selectedTileControl = (from t in TileGrid.Children.OfType<TileUserControl>()
                                        where t.ViewModel.AttendeeId == attendeeId
