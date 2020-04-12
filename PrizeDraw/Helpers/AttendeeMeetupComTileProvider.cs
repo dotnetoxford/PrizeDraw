@@ -40,7 +40,7 @@ namespace PrizeDraw.Helpers
 
                 return rsvps.Where(x => x.response == "yes").Select(x => new TileViewModel(
                     name: x.member.name,
-                    attendeeId: x.member.id,
+                    attendeeId: x.member.id.ToString(),
                     remoteImageUri: x.member.photo?.highres_link ?? x.member.photo?.photo_link,
                     color: new SolidColorBrush(Color.FromRgb((byte)rand.Next(100, 256),
                                                               (byte)rand.Next(100, 256),

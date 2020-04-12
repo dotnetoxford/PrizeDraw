@@ -3,12 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vms="clr-namespace:PrizeDraw.ViewModels"
         mc:Ignorable="d"
         Title="Event Details"
         SizeToContent="WidthAndHeight"
-        WindowStartupLocation="CenterScreen" 
-        FocusManager.FocusedElement="{Binding ElementName=tbEventId}">
-
+        WindowStartupLocation="CenterScreen"
+        d:DataContext="{d:DesignInstance vms:RequestEventIdDialogViewModel, IsDesignTimeCreatable=True}"
+        FocusManager.FocusedElement="{Binding ElementName=TbEventId}">
     <Grid Margin="15">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -21,10 +22,17 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Label Grid.Column="1">Meetup.com Event Id :</Label>
-        <TextBox Name="tbEventId" Grid.Column="1" Grid.Row="1" MinWidth="250" Text="{Binding EventId}"></TextBox>
+        <Label Grid.Column="0" Grid.Row="0">Event Type:</Label>
+        <ComboBox Grid.Column="1" Grid.Row="0"
+            ItemsSource="{Binding EventTypes}"
+            SelectedValue="{Binding EventType}"
+            DisplayMemberPath="Key"
+            SelectedValuePath="Value" />
 
-        <WrapPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0,15,0,0">
+        <Label Grid.Column="0" Grid.Row="1">Event Id :</Label>
+        <TextBox Name="TbEventId" Grid.Column="1" Grid.Row="1" MinWidth="250" Text="{Binding EventId}"></TextBox>
+
+        <WrapPanel Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0,15,0,0">
             <Button IsDefault="True" Click="OkayButton_OnClick" MinWidth="60" Margin="0,0,10,0">_Ok</Button>
             <Button IsCancel="True" MinWidth="60">_Cancel</Button>
         </WrapPanel>

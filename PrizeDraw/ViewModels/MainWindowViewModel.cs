@@ -11,7 +11,7 @@ namespace PrizeDraw.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private readonly ITileProvider _tileProvider;
+        private readonly ITileProviderFactory _tileProviderFactory;
         private readonly ISoundEffects _soundEffects;
         private readonly IMeetupComSyncDialog _meetupComSyncDialog;
 
@@ -61,9 +61,7 @@ namespace PrizeDraw.ViewModels
                 var previousSelectedTile = Tiles.SingleOrDefault(x => x.IsSelected);
 
                 if (previousSelectedTile != null)
-                {
                     previousSelectedTile.IsSelected = false;
-                }
 
                 SelectedTile.IsSelected = true;
             }
@@ -72,9 +70,9 @@ namespace PrizeDraw.ViewModels
         private readonly Timer _timer;
         private DateTimeOffset _slowdownStartTime;
 
-        public MainWindowViewModel(ITileProvider tileProvider, ISoundEffects soundEffects, IMeetupComSyncDialog meetupComSyncDialog)
+        public MainWindowViewModel(ITileProviderFactory tileProviderFactory, ISoundEffects soundEffects, IMeetupComSyncDialog meetupComSyncDialog)
         {
-            _tileProvider = tileProvider;
+            _tileProviderFactory = tileProviderFactory;
             _soundEffects = soundEffects;
             _meetupComSyncDialog = meetupComSyncDialog;
 
@@ -83,15 +81,18 @@ namespace PrizeDraw.ViewModels
 
         public async Task InitAsync()
         {
-            Tiles = await _tileProvider.GetTilesAsync();
+            PopulateTiles(await _tileProviderFactory.CreateFileTileProvider().GetTilesAsync());
+            _timer.Elapsed += (sender, e) => HandleTimer();
+        }
+
+        public void PopulateTiles(List<TileViewModel> tiles)
+        {
+            var rnd = new Random();
 
             // Randomly shuffle the list
-            var rnd = new Random();
-            Tiles = Tiles.OrderBy(item => rnd.Next()).ToList();
+            Tiles = tiles.OrderBy(item => rnd.Next()).ToList();
 
             NumColumns = (int)(Math.Sqrt(Tiles.Count) + 0.5);
-
-            _timer.Elapsed += (sender, e) => HandleTimer();
         }
 
         public void StartNextMode()
@@ -99,15 +100,11 @@ namespace PrizeDraw.ViewModels
             switch(Mode)
             {
                 case ModeEnum.Idle:
-                {
                     StartShuffle();
                     break;
-                }
                 case ModeEnum.Shuffling:
-                {
                     StartSlowdown();
                     break;
-                }
             }
         }
 
@@ -136,9 +133,7 @@ namespace PrizeDraw.ViewModels
                 stream.WriteLineAsync($"    Id: {winningTileViewModel.AttendeeId}");
 
                 if (flagged)
-                {
                     stream.WriteLineAsync("    Flagged as genuine winner");
-                }
             }
         }
 
@@ -174,10 +169,8 @@ namespace PrizeDraw.ViewModels
                 case ModeEnum.Idle: { return -1; }
                 case ModeEnum.Shuffling: { return ShuffleInterval.TotalMilliseconds; }
                 case ModeEnum.Slowdown:
-                {
                     var ms = (DateTime.UtcNow - _slowdownStartTime).TotalMilliseconds * SlowdownTimeCoefficient;
                     return Math.Max(ShuffleInterval.TotalMilliseconds, ms);
-                }
             }
 
             throw new NotSupportedException($"Unhandled mode: {_mode}");
@@ -191,14 +184,10 @@ namespace PrizeDraw.ViewModels
             var selectedTile = Tiles.FirstOrDefault(x => x.IsSelected);
 
             if (selectedTile != null)
-            {
                 selectedTile.IsSelected = false;
-            }
         }
 
-        public void BeginUpdate(int eventId)
-        {
+        public void BeginUpdate(int eventId) =>
             _meetupComSyncDialog.BeginUpdate(eventId);
-        }
     }
 }

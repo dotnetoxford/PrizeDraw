@@ -5,7 +5,7 @@ namespace PrizeDraw.Helpers
     public class MeetupComSyncDialog : IMeetupComSyncDialog
     {
         private readonly MeetupDotComSync _window;
-        private MeetupDotComSyncViewModel _viewModel;
+        private readonly MeetupDotComSyncViewModel _viewModel;
 
         public MeetupComSyncDialog(MeetupDotComSync window, MeetupDotComSyncViewModel viewModel)
         {

@@ -4,19 +4,16 @@
     {
         private readonly IMeetupComHelper _meetupComHelper;
 
-        public TileProviderFactory(IMeetupComHelper meetupComHelper)
-        {
+        public TileProviderFactory(IMeetupComHelper meetupComHelper) =>
             _meetupComHelper = meetupComHelper;
-        }
 
-        public ITileProvider CreateMeetupComTileProvider(int eventId)
-        {
-            return new AttendeeMeetupComTileProvider(eventId, _meetupComHelper);
-        }
+        public ITileProvider CreateMeetupComTileProvider(int eventId) =>
+             new AttendeeMeetupComTileProvider(eventId, _meetupComHelper);
 
-        public ITileProvider CreateFileTileProvider()
-        {
-            return new AttendeeFileListTileProvider();
-        }
+        public ITileProvider CreateZoomTileProvider(int eventId) =>
+            new AttendeeZoomTileProvider(eventId);
+
+        public ITileProvider CreateFileTileProvider() =>
+            new AttendeeFileListTileProvider();
     }
 }

@@ -31,7 +31,7 @@ namespace PrizeDraw.Helpers
                 .Select(x => x.Split('\t'))
                 .Select(x => new TileViewModel(
                     name: x[0],
-                    attendeeId: int.Parse(x[1]),
+                    attendeeId: x[1],
                     remoteImageUri: null,
                     // Randomize colour value
                     color: new SolidColorBrush(RandomColor.GetColor(ColorScheme.Random, Luminosity.Bright))

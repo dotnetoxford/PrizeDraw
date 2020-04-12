@@ -6,6 +6,6 @@ namespace PrizeDraw.Helpers
     {
         public TileViewModel WinningTile { get; set; }
         public string WinnerName { get; set; }
-        public int AttendeeId { get; set; }
+        public string AttendeeId { get; set; }
     }
 }

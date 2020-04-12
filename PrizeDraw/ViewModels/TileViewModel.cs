@@ -9,7 +9,7 @@ namespace PrizeDraw.ViewModels
     public class TileViewModel : ViewModelBase
     {
         public string Name { get; }
-        public int AttendeeId { get; }
+        public string AttendeeId { get; }
         public SolidColorBrush Color { get; }
         public string RemoteImageUri;
         public BitmapImage BitmapImage { get; private set; }
@@ -17,7 +17,7 @@ namespace PrizeDraw.ViewModels
         public bool IsAvailable => !IsSelected;
         public bool IsAvailableAndNotSelected => IsAvailable && !IsNoShow && !IsWinner;
 
-        public TileViewModel(string name, int attendeeId, string remoteImageUri, SolidColorBrush color)
+        public TileViewModel(string name, string attendeeId, string remoteImageUri, SolidColorBrush color)
         {
             Name = name;
             AttendeeId = attendeeId;

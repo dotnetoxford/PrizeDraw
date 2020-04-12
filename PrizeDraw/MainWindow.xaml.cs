@@ -6,6 +6,7 @@ using System.Linq;
 using PrizeDraw.Helpers;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
+using PrizeDraw.Enums;
 
 namespace PrizeDraw
 {
@@ -18,11 +19,13 @@ namespace PrizeDraw
         private const int WinnerTileTargetWidth = 800;
         private const int WinnerTileTargetHeight = 500;
         private readonly MainWindowViewModel _viewModel;
+        private readonly ITileProviderFactory _tileProviderFactory;
 
-        public MainWindow(IEventValidator eventValidator, MainWindowViewModel viewModel)
+        public MainWindow(IEventValidator eventValidator, MainWindowViewModel viewModel, ITileProviderFactory tileProviderFactory)
         {
             _eventValidator = eventValidator;
             _viewModel = viewModel;
+            _tileProviderFactory = tileProviderFactory;
 
             InitializeComponent();
         }
@@ -44,7 +47,7 @@ namespace PrizeDraw
             Application.Current.Dispatcher?.Invoke(() => WinnerSelected(eventArgs.AttendeeId));
         }
 
-        private void WinnerSelected(int attendeeId)
+        private void WinnerSelected(string attendeeId)
         {
             var selectedTileControl = (from t in TileGrid.Children.OfType<TileUserControl>()
                                        where t.ViewModel.AttendeeId == attendeeId
@@ -172,27 +175,39 @@ namespace PrizeDraw
                     Hide();
 
                     // Ask user for an event id
-                    var dlg = new RequestEventIdDialog();
-                    if (dlg.ShowDialog() != true)
-                    {
+                    var requestEventIdViewModel = new RequestEventIdDialogViewModel();
+                    if (new RequestEventIdDialog(requestEventIdViewModel).ShowDialog() != true)
                         return;
-                    }
 
-                    await _eventValidator.InitAsync(dlg.EventId);
-
-                    if (!_eventValidator.IsEventDateToday())
+                    switch (requestEventIdViewModel.EventType)
                     {
-                        if (MessageBox.Show("This event isn't for today. Are you sure you have the correct event id?", "Event not today", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
-                        {
-                            return;
-                        }
+                        case EventType.Meetup:
+                            await _eventValidator.InitAsync(requestEventIdViewModel.EventId);
+
+                            if (!_eventValidator.IsEventDateToday())
+                                if (MessageBox.Show("This event isn't for today. Are you sure you have the correct event id?", "Event not today", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                                    return;
+
+                            // Meetup is an offline update done before the event. This BeginUpdate will pull from Meetup and
+                            // write to the file system, then require a relaunch.
+                            Canvas.Children.RemoveRange(0, Canvas.Children.Count);
+                            _viewModel.BeginUpdate(requestEventIdViewModel.EventId);
+
+                            Close();
+                            break;
+
+                        case EventType.Zoom:
+                            Canvas.Children.RemoveRange(0, Canvas.Children.Count);
+
+                            _viewModel.PopulateTiles(await _tileProviderFactory.CreateZoomTileProvider(requestEventIdViewModel.EventId)
+                                .GetTilesAsync());
+
+                            InitialiseGrid();
+
+                            Show();
+
+                            break;
                     }
-
-                    Canvas.Children.RemoveRange(0, Canvas.Children.Count);
-
-                    _viewModel.BeginUpdate(dlg.EventId);
-
-                    Close();
 
                     break;
                 }
@@ -206,17 +221,17 @@ namespace PrizeDraw
                 return;
             }
 
+            TileGrid.ColumnDefinitions.Clear();
+            TileGrid.RowDefinitions.Clear();
+            TileGrid.Children.Clear();
+
             for (var x = 0; x < _viewModel.NumColumns; x++)
-            {
                 TileGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-            }
 
             var numRows = (int)Math.Ceiling((decimal)_viewModel.Tiles.Count / _viewModel.NumColumns);
 
             for (var y = 0; y < numRows; y++)
-            {
                 TileGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-            }
 
             var n = 0;
 
