@@ -21,7 +21,6 @@ namespace PrizeDraw
 
             builder.RegisterType<TileProviderFactory>().As<ITileProviderFactory>().SingleInstance();
             builder.RegisterType<WavSoundEffects>().As<ISoundEffects>().SingleInstance();
-            builder.RegisterType<AttendeeFileListTileProvider>().As<ITileProvider>().SingleInstance();
             builder.RegisterType<MeetupComEventValidator>().As<IEventValidator>().SingleInstance();
             builder.RegisterType<DialogService>().As<IDialogService>().SingleInstance();
             builder.RegisterType<MeetupComHelper>().As<IMeetupComHelper>();

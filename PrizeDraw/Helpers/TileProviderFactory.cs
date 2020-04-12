@@ -9,7 +9,9 @@
 
         public ITileProvider CreateMeetupComTileProvider(int eventId) =>
              new AttendeeMeetupComTileProvider(eventId, _meetupComHelper);
-            // new AttendeeZoomTileProvider(eventId);
+
+        public ITileProvider CreateZoomTileProvider(int eventId) =>
+            new AttendeeZoomTileProvider(eventId);
 
         public ITileProvider CreateFileTileProvider() =>
             new AttendeeFileListTileProvider();
