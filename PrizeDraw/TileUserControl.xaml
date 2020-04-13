@@ -16,7 +16,6 @@
         <Grid Background="{Binding Color}" Visibility="{Binding IsAvailableAndNotSelected, Converter={StaticResource BoolToVisConverter}}">
             <Border BorderThickness="3" BorderBrush="Black">
                 <TextBlock
-                    Visibility="{Binding IsNotSelected}"
                     Text="{Binding Name}"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
