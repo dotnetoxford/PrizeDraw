@@ -24,8 +24,8 @@ namespace PrizeDraw.Helpers
             foreach(var attendee in GetAttendees(_eventId.ToString()))
                 if (attendee.JoinTime != null)
                     dic[attendee.UserUuid] = attendee.UserName;
-                 else
-                     dic.Remove(attendee.UserUuid);
+                else
+                    dic.Remove(attendee.UserUuid);
 
             var rand = new Random();
 
@@ -39,7 +39,7 @@ namespace PrizeDraw.Helpers
             )).ToList());
         }
 
-        public IEnumerable<Attendee> GetAttendees(string meetingId) =>
+        private IEnumerable<Attendee> GetAttendees(string meetingId) =>
             CloudStorageAccount.Parse(Environment.GetEnvironmentVariable("PrizeDraw_AzureStorageConnectionString"))
                 .CreateCloudTableClient()
                 .GetTableReference("Attendees")
