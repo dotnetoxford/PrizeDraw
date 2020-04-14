@@ -23,9 +23,9 @@ namespace PrizeDraw.Helpers
 
             foreach(var attendee in GetAttendees(_eventId))
                 if (attendee.JoinTime != null)
-                    dic[attendee.UserUuid] = attendee.UserName;
+                    dic[attendee.UserId] = attendee.UserName;
                 else
-                    dic.Remove(attendee.UserUuid);
+                    dic.Remove(attendee.UserId);
 
             var rand = new Random();
 
