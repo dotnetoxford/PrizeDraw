@@ -15,7 +15,7 @@ namespace PrizeDraw.ZoomFunctions.Models
             public class Object
             {
                 public int duration { get; set; }
-                public DateTime start_time { get; set; }
+                public DateTime? start_time { get; set; }
                 public string timezone { get; set; }
                 public string topic { get; set; }
                 public string id { get; set; }
