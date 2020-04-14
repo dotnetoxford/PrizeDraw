@@ -34,8 +34,8 @@ namespace PrizeDraw.Helpers
                 attendeeId: x.Key,
                 remoteImageUri: null, //x.member.photo?.highres_link ?? x.member.photo?.photo_link,
                 color: new SolidColorBrush(Color.FromRgb((byte)rand.Next(100, 256),
-                                                          (byte)rand.Next(100, 256),
-                                                          (byte)rand.Next(100, 256)))
+                                                         (byte)rand.Next(100, 256),
+                                                         (byte)rand.Next(100, 256)))
             )).ToList());
         }
 
@@ -45,7 +45,7 @@ namespace PrizeDraw.Helpers
                 .GetTableReference("Attendees")
                 .ExecuteQuery(new TableQuery<Attendee>()
                     .Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, meetingId)))
-                .Where(x => x.Type != 0)
+                .Where(x => x.Type != 0) // Type 0 is when user joins/leaves a breakout room
                 .OrderBy(x => x.JoinTime ?? x.LeaveTime)
                 .ToList();
 
