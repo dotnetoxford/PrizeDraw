@@ -12,16 +12,16 @@ namespace PrizeDraw.Helpers
 {
     public class AttendeeZoomTileProvider : ITileProvider
     {
-        private readonly int _eventId;
+        private readonly string _eventId;
 
-        public AttendeeZoomTileProvider(int eventId) =>
+        public AttendeeZoomTileProvider(string eventId) =>
             _eventId = eventId;
 
         public Task<List<TileViewModel>> GetTilesAsync()
         {
             var dic = new Dictionary<string, string>();
 
-            foreach(var attendee in GetAttendees(_eventId.ToString()))
+            foreach(var attendee in GetAttendees(_eventId))
                 if (attendee.JoinTime != null)
                     dic[attendee.UserUuid] = attendee.UserName;
                 else

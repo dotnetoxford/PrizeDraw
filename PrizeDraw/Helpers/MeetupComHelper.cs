@@ -6,7 +6,7 @@ namespace PrizeDraw.Helpers
 {
     public class MeetupComHelper : IMeetupComHelper
     {
-        public async Task<string> GetEventApiPathAsync(HttpClient httpClient, int eventId)
+        public async Task<string> GetEventApiPathAsync(HttpClient httpClient, string eventId)
         {
             var eventDetailsResponse = await httpClient.GetAsync($"/2/events?event_id={eventId}");
             eventDetailsResponse.EnsureSuccessStatusCode();

@@ -4,8 +4,8 @@ namespace PrizeDraw.Helpers
 {
     public interface ITileProviderFactory
     {
-        ITileProvider CreateMeetupComTileProvider(int eventId);
-        ITileProvider CreateZoomTileProvider(int eventId);
+        ITileProvider CreateMeetupComTileProvider(string eventId);
+        ITileProvider CreateZoomTileProvider(string eventId);
         ITileProvider CreateFileTileProvider();
     }
 }

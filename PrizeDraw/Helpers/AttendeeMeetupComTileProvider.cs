@@ -13,9 +13,9 @@ namespace PrizeDraw.Helpers
     public class AttendeeMeetupComTileProvider : ITileProvider
     {
         private readonly IMeetupComHelper _meetupComHelper;
-        private readonly int _eventId;
+        private readonly string _eventId;
 
-        public AttendeeMeetupComTileProvider(int eventId, IMeetupComHelper meetupComHelper)
+        public AttendeeMeetupComTileProvider(string eventId, IMeetupComHelper meetupComHelper)
         {
             _eventId = eventId;
             _meetupComHelper = meetupComHelper;

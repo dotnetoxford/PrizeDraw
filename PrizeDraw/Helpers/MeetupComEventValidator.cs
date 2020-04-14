@@ -16,7 +16,7 @@ namespace PrizeDraw.Helpers
             _meetupComHelper = meetupComHelper;
         }
 
-        public async Task InitAsync(int eventId)
+        public async Task InitAsync(string eventId)
         {
             using (var client = new HttpClient())
             {

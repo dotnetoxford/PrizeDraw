@@ -4,7 +4,7 @@ namespace PrizeDraw.Helpers
 {
     public interface IEventValidator
     {
-        Task InitAsync(int eventId);
+        Task InitAsync(string eventId);
         bool IsEventDateToday();
     }
 }

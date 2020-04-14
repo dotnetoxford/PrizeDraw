@@ -16,7 +16,7 @@ namespace PrizeDraw.Tests.Integration.Helpers
             var factory = container.Resolve<ITileProviderFactory>();
 
 
-            var sut = factory.CreateMeetupComTileProvider(242414971);
+            var sut = factory.CreateMeetupComTileProvider("242414971");
             var tiles = await sut.GetTilesAsync();
 
             Assert.That(tiles.Count, Is.GreaterThan(0));

@@ -187,7 +187,7 @@ namespace PrizeDraw.ViewModels
                 selectedTile.IsSelected = false;
         }
 
-        public void BeginUpdate(int eventId) =>
+        public void BeginUpdate(string eventId) =>
             _meetupComSyncDialog.BeginUpdate(eventId);
     }
 }

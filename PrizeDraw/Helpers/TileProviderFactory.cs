@@ -7,10 +7,10 @@
         public TileProviderFactory(IMeetupComHelper meetupComHelper) =>
             _meetupComHelper = meetupComHelper;
 
-        public ITileProvider CreateMeetupComTileProvider(int eventId) =>
+        public ITileProvider CreateMeetupComTileProvider(string eventId) =>
              new AttendeeMeetupComTileProvider(eventId, _meetupComHelper);
 
-        public ITileProvider CreateZoomTileProvider(int eventId) =>
+        public ITileProvider CreateZoomTileProvider(string eventId) =>
             new AttendeeZoomTileProvider(eventId);
 
         public ITileProvider CreateFileTileProvider() =>

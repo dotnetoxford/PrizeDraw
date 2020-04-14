@@ -13,7 +13,7 @@ namespace PrizeDraw.ViewModels
 
         public string ButtonText => _syncInProgress ? "Please wait ..." : "Download Attendees from Meetup.com";
 
-        public int EventId { get; set; }
+        public string EventId { get; set; }
 
         private bool _syncInProgress;
 

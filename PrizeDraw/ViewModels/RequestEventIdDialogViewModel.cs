@@ -6,7 +6,7 @@ namespace PrizeDraw.ViewModels
 {
     public class RequestEventIdDialogViewModel : ViewModelBase
     {
-        public int EventId { get; set; }
+        public string EventId { get; set; }
         public EventType EventType { get; set; }
 
         public Dictionary<string, EventType> EventTypes => new Dictionary<string, EventType>

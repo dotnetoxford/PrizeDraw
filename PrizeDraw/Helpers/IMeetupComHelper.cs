@@ -5,6 +5,6 @@ namespace PrizeDraw.Helpers
 {
     public interface IMeetupComHelper
     {
-        Task<string> GetEventApiPathAsync(HttpClient httpClient, int eventId);
+        Task<string> GetEventApiPathAsync(HttpClient httpClient, string eventId);
     }
 }

@@ -2,6 +2,6 @@
 {
     public interface IMeetupComSyncDialog
     {
-        void BeginUpdate(int eventId);
+        void BeginUpdate(string eventId);
     }
 }

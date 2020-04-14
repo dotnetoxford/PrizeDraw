@@ -14,7 +14,7 @@ namespace PrizeDraw.Helpers
             _viewModel = viewModel;
         }
 
-        public void BeginUpdate(int eventId)
+        public void BeginUpdate(string eventId)
         {
             _viewModel.EventId = eventId;
             _window.ShowDialog();
