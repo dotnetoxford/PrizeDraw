@@ -23,7 +23,9 @@ namespace PrizeDraw.ZoomFunctions
 
             return new Attendee(data.payload.@object.id)
             {
+                Type = data.payload.@object.type,
                 MeetingUuid = data.payload.@object.uuid,
+                MeetingId = data.payload.@object.id,
                 MeetingName = data.payload.@object.topic,
                 UserName = data.payload.@object.participant.user_name,
                 UserId = data.payload.@object.participant.user_id,

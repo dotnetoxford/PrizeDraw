@@ -45,6 +45,7 @@ namespace PrizeDraw.Helpers
                 .GetTableReference("Attendees")
                 .ExecuteQuery(new TableQuery<Attendee>()
                     .Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, meetingId)))
+                .Where(x => x.Type != 0)
                 .OrderBy(x => x.JoinTime ?? x.LeaveTime)
                 .ToList();
 

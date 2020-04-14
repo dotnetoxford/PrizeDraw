@@ -15,6 +15,7 @@ namespace PrizeDraw.Models
         {
         }
 
+        public int Type { get; set; }
         public string MeetingUuid { get; set; }
 
         public string MeetingName { get; set; }
