@@ -15,8 +15,11 @@ namespace PrizeDraw.ZoomFunctions
         [return: Table("Attendees")]
         public static async Task<Attendee> RunAsync([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req, ILogger log)
         {
-            var data = JsonConvert.DeserializeObject<ParticipantJoinedAndLeftEventData>(
-                await new StreamReader(req.Body).ReadToEndAsync());
+            var bodyText = await new StreamReader(req.Body).ReadToEndAsync();
+
+            log.LogInformation(bodyText);
+
+            var data = JsonConvert.DeserializeObject<ParticipantJoinedAndLeftEventData>(bodyText);
 
             return new Attendee(data.payload.@object.id)
             {
