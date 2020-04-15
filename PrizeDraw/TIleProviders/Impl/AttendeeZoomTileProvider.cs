@@ -1,5 +1,4 @@
-﻿using PrizeDraw.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,8 +6,9 @@ using System.Windows.Media;
 using Microsoft.Azure.CosmosDB.Table;
 using Microsoft.Azure.Storage;
 using PrizeDraw.Models;
+using PrizeDraw.ViewModels;
 
-namespace PrizeDraw.Helpers
+namespace PrizeDraw.TIleProviders.Impl
 {
     public class AttendeeZoomTileProvider : ITileProvider
     {

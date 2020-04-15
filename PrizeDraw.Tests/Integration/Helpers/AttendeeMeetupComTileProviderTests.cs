@@ -2,6 +2,7 @@
 using Autofac;
 using NUnit.Framework;
 using PrizeDraw.Helpers;
+using PrizeDraw.TIleProviders;
 
 namespace PrizeDraw.Tests.Integration.Helpers
 {

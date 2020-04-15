@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using GalaSoft.MvvmLight.Views;
 using PrizeDraw.Helpers;
+using PrizeDraw.TIleProviders;
+using PrizeDraw.TIleProviders.Impl;
 using PrizeDraw.ViewModels;
 
 namespace PrizeDraw

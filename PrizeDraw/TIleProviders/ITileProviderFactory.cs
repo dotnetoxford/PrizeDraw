@@ -1,4 +1,4 @@
-﻿namespace PrizeDraw.Helpers
+﻿namespace PrizeDraw.TIleProviders
 {
     public interface ITileProviderFactory
     {

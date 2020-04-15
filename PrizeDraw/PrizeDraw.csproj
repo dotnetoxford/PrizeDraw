@@ -178,21 +178,15 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Enums\EventType.cs" />
-    <Compile Include="Helpers\AttendeeMeetupComTileProvider.cs" />
-    <Compile Include="Helpers\AttendeeZoomTileProvider.cs" />
     <Compile Include="Helpers\DialogService.cs" />
     <Compile Include="Helpers\ICloseableWindow.cs" />
     <Compile Include="Helpers\IEventValidator.cs" />
     <Compile Include="Helpers\IMeetupComHelper.cs" />
     <Compile Include="Helpers\IMeetupComSyncDialog.cs" />
     <Compile Include="Helpers\ISoundEffects.cs" />
-    <Compile Include="Helpers\ITileProvider.cs" />
-    <Compile Include="Helpers\AttendeeFileListTileProvider.cs" />
-    <Compile Include="Helpers\ITileProviderFactory.cs" />
     <Compile Include="Helpers\MeetupComHelper.cs" />
     <Compile Include="Helpers\MeetupComEventValidator.cs" />
     <Compile Include="Helpers\MeetupComSyncDialog.cs" />
-    <Compile Include="Helpers\TileProviderFactory.cs" />
     <Compile Include="Helpers\WavSoundEffects.cs" />
     <Compile Include="Models\Attendee.cs" />
     <Compile Include="Models\MeetupCom\Event\Event.cs" />
@@ -212,6 +206,12 @@
     <Compile Include="RequestEventIdDialog.xaml.cs">
       <DependentUpon>RequestEventIdDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TIleProviders\Impl\AttendeeFileListTileProvider.cs" />
+    <Compile Include="TIleProviders\Impl\AttendeeMeetupComTileProvider.cs" />
+    <Compile Include="TIleProviders\Impl\AttendeeZoomTileProvider.cs" />
+    <Compile Include="TIleProviders\Impl\TileProviderFactory.cs" />
+    <Compile Include="TIleProviders\ITileProvider.cs" />
+    <Compile Include="TIleProviders\ITileProviderFactory.cs" />
     <Compile Include="TileUserControl.xaml.cs">
       <DependentUpon>TileUserControl.xaml</DependentUpon>
     </Compile>

@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Views;
 using PrizeDraw.Helpers;
+using PrizeDraw.TIleProviders;
 
 namespace PrizeDraw.ViewModels
 {

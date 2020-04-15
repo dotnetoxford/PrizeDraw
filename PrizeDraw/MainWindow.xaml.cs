@@ -7,6 +7,7 @@ using PrizeDraw.Helpers;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using PrizeDraw.Enums;
+using PrizeDraw.TIleProviders;
 
 namespace PrizeDraw
 {

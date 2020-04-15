@@ -1,5 +1,7 @@
 ﻿using Autofac;
 using PrizeDraw.Helpers;
+using PrizeDraw.TIleProviders;
+using PrizeDraw.TIleProviders.Impl;
 
 namespace PrizeDraw.Tests
 {

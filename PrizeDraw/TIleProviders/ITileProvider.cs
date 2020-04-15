@@ -1,8 +1,8 @@
-﻿using PrizeDraw.ViewModels;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using PrizeDraw.ViewModels;
 
-namespace PrizeDraw.Helpers
+namespace PrizeDraw.TIleProviders
 {
     //(todo) Rename me to ITileRepository, now that we're saving aswell as retrieving
     public interface ITileProvider

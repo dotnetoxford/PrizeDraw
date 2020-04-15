@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
+using PrizeDraw.TIleProviders;
 
 namespace PrizeDraw.ViewModels
 {

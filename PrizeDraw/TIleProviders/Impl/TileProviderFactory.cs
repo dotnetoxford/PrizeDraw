@@ -1,4 +1,6 @@
-﻿namespace PrizeDraw.Helpers
+﻿using PrizeDraw.Helpers;
+
+namespace PrizeDraw.TIleProviders.Impl
 {
     public class TileProviderFactory : ITileProviderFactory
     {
