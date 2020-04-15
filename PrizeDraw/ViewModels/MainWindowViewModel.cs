@@ -42,7 +42,7 @@ namespace PrizeDraw.ViewModels
         private ModeEnum _mode = ModeEnum.Idle;
         public ModeEnum Mode
         {
-            get { return _mode; }
+            get => _mode;
             set
             {
                 Set(nameof(Mode), ref _mode, value);
@@ -53,7 +53,7 @@ namespace PrizeDraw.ViewModels
         private TileViewModel _selectedTile;
         public TileViewModel SelectedTile
         {
-            get { return _selectedTile; }
+            get => _selectedTile;
             set
             {
                 Set(nameof(SelectedTile), ref _selectedTile, value);

@@ -21,9 +21,7 @@ namespace PrizeDraw.Helpers
             await Task.Yield();
 
             if (!File.Exists(AttendeesFileName))
-            {
                 return new List<TileViewModel>();
-            }
 
             var tiles = File.ReadAllLines(AttendeesFileName)
                 .Where(x => !string.IsNullOrWhiteSpace(x))
@@ -38,9 +36,7 @@ namespace PrizeDraw.Helpers
                 )).ToList();
 
             foreach (var tile in tiles)
-            {
                 tile.LoadImage(ImageFolder);
-            }
 
             return tiles;
         }
@@ -48,40 +44,29 @@ namespace PrizeDraw.Helpers
         public async Task SaveTilesAsync(List<TileViewModel> tiles)
         {
             var fullPath = Path.GetDirectoryName(AttendeesFileName);
+
             if (fullPath == null)
-            {
                 throw new NullReferenceException("Invalid filename");
-            }
 
             var imagePath = Path.Combine(fullPath, "Images");
 
             if (!Directory.Exists(imagePath))
-            {
                 Directory.CreateDirectory(imagePath);
-            }
 
             var remoteImages = tiles.Where(t => !string.IsNullOrWhiteSpace(t.RemoteImageUri));
 
             foreach (var remoteImage in remoteImages)
-            {
                 using (var client = new HttpClient())
                 {
                     var localImagePath = Path.Combine(imagePath, $"{remoteImage.AttendeeId}.jpg");
                     var imageBytes = await client.GetByteArrayAsync(remoteImage.RemoteImageUri);
                     File.WriteAllBytes(localImagePath, imageBytes);
                 }
-            }
 
             using (var fs = new FileStream(AttendeesFileName, FileMode.Create, FileAccess.Write))
-            {
                 using (var sw = new StreamWriter(fs))
-                {
                     foreach (var tile in tiles)
-                    {
                         await sw.WriteLineAsync($"{tile.Name}\t{tile.AttendeeId}");
-                    }
-                }
-            }
         }
     }
 }

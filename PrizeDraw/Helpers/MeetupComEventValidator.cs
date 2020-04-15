@@ -11,10 +11,8 @@ namespace PrizeDraw.Helpers
         private readonly IMeetupComHelper _meetupComHelper;
         private Event _eventInfo;
 
-        public MeetupComEventValidator(IMeetupComHelper meetupComHelper)
-        {
+        public MeetupComEventValidator(IMeetupComHelper meetupComHelper) =>
             _meetupComHelper = meetupComHelper;
-        }
 
         public async Task InitAsync(string eventId)
         {
@@ -34,14 +32,10 @@ namespace PrizeDraw.Helpers
             }
         }
 
-        public bool IsEventDateToday()
-        {
-            return UnixTimeStampToDateTime(_eventInfo.time).Date == DateTime.UtcNow.Date;
-        }
+        public bool IsEventDateToday() =>
+            UnixTimeStampToDateTime(_eventInfo.time).Date == DateTime.UtcNow.Date;
 
-        private static DateTime UnixTimeStampToDateTime(long unixTimeStamp)
-        {
-            return new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(unixTimeStamp);
-        }
+        private static DateTime UnixTimeStampToDateTime(long unixTimeStamp) =>
+            new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(unixTimeStamp);
     }
 }

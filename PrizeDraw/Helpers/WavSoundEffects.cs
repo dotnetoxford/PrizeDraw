@@ -17,14 +17,10 @@ namespace PrizeDraw.Helpers
             _winnerSoundPlayer = File.Exists(WinnerWavFile) ? new SoundPlayer(WinnerWavFile) : null;
         }
 
-        public void PlayTileChangeSound()
-        {
+        public void PlayTileChangeSound() =>
             _tileChangeSoundPlayer?.Play();
-        }
 
-        public void PlayWinnerSound()
-        {
+        public void PlayWinnerSound() =>
             _winnerSoundPlayer?.Play();
-        }
     }
 }

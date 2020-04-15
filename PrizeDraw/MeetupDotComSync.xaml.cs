@@ -8,9 +8,7 @@ namespace PrizeDraw
     /// </summary>
     public partial class MeetupDotComSync : Window, ICloseableWindow
     {
-        public MeetupDotComSync()
-        {
+        public MeetupDotComSync() =>
             InitializeComponent();
-        }
     }
 }

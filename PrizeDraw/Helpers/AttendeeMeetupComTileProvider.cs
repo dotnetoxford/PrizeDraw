@@ -49,9 +49,7 @@ namespace PrizeDraw.Helpers
             }
         }
 
-        public Task SaveTilesAsync(List<TileViewModel> tiles)
-        {
+        public Task SaveTilesAsync(List<TileViewModel> tiles) =>
             throw new NotSupportedException();
-        }
     }
 }

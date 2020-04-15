@@ -135,13 +135,10 @@ namespace PrizeDraw
             {
                 case Key.Space:
                 case Key.Next:
-                {
                     _viewModel.StartNextMode();
                     break;
-                }
                 case Key.Escape:
                 case Key.B:
-                {
                     if (_viewModel?.SelectedTile != null)
                         _viewModel.SelectedTile.IsNoShow = true;
 
@@ -151,10 +148,8 @@ namespace PrizeDraw
                         Canvas.Children.Remove(Canvas.Children[0]);
 
                     break;
-                }
                 case Key.Enter:
                 case Key.PageUp:
-                {
                     if (_viewModel?.SelectedTile != null)
                     {
                         _viewModel.SelectedTile.IsWinner = true;
@@ -169,9 +164,7 @@ namespace PrizeDraw
                         Canvas.Children.Remove(Canvas.Children[0]);
 
                     break;
-                }
                 case Key.F5:
-                {
                     Hide();
 
                     // Ask user for an event id
@@ -210,16 +203,13 @@ namespace PrizeDraw
                     }
 
                     break;
-                }
             }
         }
 
         private void InitialiseGrid()
         {
             if (!_viewModel.Tiles.Any())
-            {
                 return;
-            }
 
             TileGrid.ColumnDefinitions.Clear();
             TileGrid.RowDefinitions.Clear();

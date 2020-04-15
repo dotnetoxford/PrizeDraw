@@ -1,6 +1,4 @@
-﻿using PrizeDraw.Enums;
-
-namespace PrizeDraw.Helpers
+﻿namespace PrizeDraw.Helpers
 {
     public interface ITileProviderFactory
     {
