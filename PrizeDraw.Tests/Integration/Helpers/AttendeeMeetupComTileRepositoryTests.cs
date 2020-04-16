@@ -1,22 +1,21 @@
 ﻿using System.Threading.Tasks;
 using Autofac;
 using NUnit.Framework;
-using PrizeDraw.Helpers;
-using PrizeDraw.TIleProviders;
+using PrizeDraw.TileRepositories;
 
 namespace PrizeDraw.Tests.Integration.Helpers
 {
     [TestFixture, Category("Integration")]
-    public class AttendeeMeetupComTileProviderTests
+    public class AttendeeMeetupComTileRepositoryTests
     {
         [Test]
         public async Task GivenAMeetupEventId_WithRSVPs_ThenResultsShouldHaveValues()
         {
             var container = TestBootstrapper.Init();
 
-            var factory = container.Resolve<ITileProviderFactory>();
+            var factory = container.Resolve<ITileRepositoryFactory>();
 
-            var sut = factory.CreateMeetupComTileProvider("242414971");
+            var sut = factory.CreateMeetupComTileRepository("242414971");
             var tiles = await sut.GetTilesAsync();
 
             Assert.That(tiles.Count, Is.GreaterThan(0));

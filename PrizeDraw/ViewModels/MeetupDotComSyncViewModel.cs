@@ -3,13 +3,13 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Views;
 using PrizeDraw.Helpers;
-using PrizeDraw.TIleProviders;
+using PrizeDraw.TileRepositories;
 
 namespace PrizeDraw.ViewModels
 {
     public class MeetupDotComSyncViewModel : ViewModelBase
     {
-        private readonly ITileProviderFactory _tileProviderFactory;
+        private readonly ITileRepositoryFactory _tileRepositoryFactory;
         private readonly IDialogService _dialogService;
 
         public string ButtonText => _syncInProgress ? "Please wait ..." : "Download Attendees from Meetup.com";
@@ -18,9 +18,9 @@ namespace PrizeDraw.ViewModels
 
         private bool _syncInProgress;
 
-        public MeetupDotComSyncViewModel(ITileProviderFactory tileProviderFactory, IDialogService dialogService)
+        public MeetupDotComSyncViewModel(ITileRepositoryFactory tileRepositoryFactory, IDialogService dialogService)
         {
-            _tileProviderFactory = tileProviderFactory;
+            _tileRepositoryFactory = tileRepositoryFactory;
             _dialogService = dialogService;
         }
 
@@ -33,11 +33,11 @@ namespace PrizeDraw.ViewModels
 
             try
             {
-                var sourceTileProvider = _tileProviderFactory.CreateMeetupComTileProvider(EventId);
-                var targetTileProvider = _tileProviderFactory.CreateFileTileProvider();
+                var sourceTileRepository = _tileRepositoryFactory.CreateMeetupComTileRepository(EventId);
+                var targetFileRepository = _tileRepositoryFactory.CreateFileTileRepository();
 
-                var tiles = await sourceTileProvider.GetTilesAsync();
-                await targetTileProvider.SaveTilesAsync(tiles);
+                var tiles = await sourceTileRepository.GetTilesAsync();
+                await targetFileRepository.SaveTilesAsync(tiles);
 
                 await _dialogService.ShowMessageBox("Synchronization Successful - please restart the app to use this data", "Meetup.com Download");
 

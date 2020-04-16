@@ -7,7 +7,7 @@ using PrizeDraw.Helpers;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using PrizeDraw.Enums;
-using PrizeDraw.TIleProviders;
+using PrizeDraw.TileRepositories;
 
 namespace PrizeDraw
 {
@@ -20,13 +20,13 @@ namespace PrizeDraw
         private const int WinnerTileTargetWidth = 800;
         private const int WinnerTileTargetHeight = 500;
         private readonly MainWindowViewModel _viewModel;
-        private readonly ITileProviderFactory _tileProviderFactory;
+        private readonly ITileRepositoryFactory _tileRepositoryFactory;
 
-        public MainWindow(IEventValidator eventValidator, MainWindowViewModel viewModel, ITileProviderFactory tileProviderFactory)
+        public MainWindow(IEventValidator eventValidator, MainWindowViewModel viewModel, ITileRepositoryFactory tileRepositoryFactory)
         {
             _eventValidator = eventValidator;
             _viewModel = viewModel;
-            _tileProviderFactory = tileProviderFactory;
+            _tileRepositoryFactory = tileRepositoryFactory;
 
             InitializeComponent();
         }
@@ -193,7 +193,7 @@ namespace PrizeDraw
                         case EventType.Zoom:
                             Canvas.Children.RemoveRange(0, Canvas.Children.Count);
 
-                            _viewModel.PopulateTiles(await _tileProviderFactory.CreateZoomTileProvider(requestEventIdViewModel.EventId)
+                            _viewModel.PopulateTiles(await _tileRepositoryFactory.CreateZoomTileRepository(requestEventIdViewModel.EventId)
                                 .GetTilesAsync());
 
                             InitialiseGrid();

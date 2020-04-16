@@ -2,10 +2,9 @@
 using System.Threading.Tasks;
 using PrizeDraw.ViewModels;
 
-namespace PrizeDraw.TIleProviders
+namespace PrizeDraw.TileRepositories
 {
-    //(todo) Rename me to ITileRepository, now that we're saving aswell as retrieving
-    public interface ITileProvider
+    public interface ITileRepository
     {
         Task<List<TileViewModel>> GetTilesAsync();
         Task SaveTilesAsync(List<TileViewModel> tiles);

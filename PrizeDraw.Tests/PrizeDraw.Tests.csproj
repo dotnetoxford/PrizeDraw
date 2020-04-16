@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TestBootstrapper.cs" />
-    <Compile Include="Integration\Helpers\AttendeeMeetupComTileProviderTests.cs" />
+    <Compile Include="Integration\Helpers\AttendeeMeetupComTileRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

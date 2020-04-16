@@ -8,13 +8,13 @@ using Microsoft.Azure.Storage;
 using PrizeDraw.Models;
 using PrizeDraw.ViewModels;
 
-namespace PrizeDraw.TIleProviders.Impl
+namespace PrizeDraw.TileRepositories.Impl
 {
-    public class AttendeeZoomTileProvider : ITileProvider
+    public class AttendeeZoomTileRepository : ITileRepository
     {
         private readonly string _eventId;
 
-        public AttendeeZoomTileProvider(string eventId) =>
+        public AttendeeZoomTileRepository(string eventId) =>
             _eventId = eventId;
 
         public Task<List<TileViewModel>> GetTilesAsync()

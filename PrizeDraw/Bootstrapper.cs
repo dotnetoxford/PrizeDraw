@@ -1,8 +1,8 @@
 ﻿using Autofac;
 using GalaSoft.MvvmLight.Views;
 using PrizeDraw.Helpers;
-using PrizeDraw.TIleProviders;
-using PrizeDraw.TIleProviders.Impl;
+using PrizeDraw.TileRepositories;
+using PrizeDraw.TileRepositories.Impl;
 using PrizeDraw.ViewModels;
 
 namespace PrizeDraw
@@ -21,7 +21,7 @@ namespace PrizeDraw
             builder.RegisterType<MeetupDotComSyncViewModel>();
             builder.RegisterType<RequestEventIdDialogViewModel>();
 
-            builder.RegisterType<TileProviderFactory>().As<ITileProviderFactory>().SingleInstance();
+            builder.RegisterType<TileRepositoryFactory>().As<ITileRepositoryFactory>().SingleInstance();
             builder.RegisterType<WavSoundEffects>().As<ISoundEffects>().SingleInstance();
             builder.RegisterType<MeetupComEventValidator>().As<IEventValidator>().SingleInstance();
             builder.RegisterType<DialogService>().As<IDialogService>().SingleInstance();

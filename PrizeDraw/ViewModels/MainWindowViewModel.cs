@@ -6,13 +6,13 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
-using PrizeDraw.TIleProviders;
+using PrizeDraw.TileRepositories;
 
 namespace PrizeDraw.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private readonly ITileProviderFactory _tileProviderFactory;
+        private readonly ITileRepositoryFactory _tileRepositoryFactory;
         private readonly ISoundEffects _soundEffects;
         private readonly IMeetupComSyncDialog _meetupComSyncDialog;
 
@@ -71,9 +71,9 @@ namespace PrizeDraw.ViewModels
         private readonly Timer _timer;
         private DateTimeOffset _slowdownStartTime;
 
-        public MainWindowViewModel(ITileProviderFactory tileProviderFactory, ISoundEffects soundEffects, IMeetupComSyncDialog meetupComSyncDialog)
+        public MainWindowViewModel(ITileRepositoryFactory tileRepositoryFactory, ISoundEffects soundEffects, IMeetupComSyncDialog meetupComSyncDialog)
         {
-            _tileProviderFactory = tileProviderFactory;
+            _tileRepositoryFactory = tileRepositoryFactory;
             _soundEffects = soundEffects;
             _meetupComSyncDialog = meetupComSyncDialog;
 
@@ -82,7 +82,7 @@ namespace PrizeDraw.ViewModels
 
         public async Task InitAsync()
         {
-            PopulateTiles(await _tileProviderFactory.CreateFileTileProvider().GetTilesAsync());
+            PopulateTiles(await _tileRepositoryFactory.CreateFileTileRepository().GetTilesAsync());
             _timer.Elapsed += (sender, e) => HandleTimer();
         }
 

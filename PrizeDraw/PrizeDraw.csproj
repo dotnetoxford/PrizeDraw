@@ -206,12 +206,12 @@
     <Compile Include="RequestEventIdDialog.xaml.cs">
       <DependentUpon>RequestEventIdDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TIleProviders\Impl\AttendeeFileListTileProvider.cs" />
-    <Compile Include="TIleProviders\Impl\AttendeeMeetupComTileProvider.cs" />
-    <Compile Include="TIleProviders\Impl\AttendeeZoomTileProvider.cs" />
-    <Compile Include="TIleProviders\Impl\TileProviderFactory.cs" />
-    <Compile Include="TIleProviders\ITileProvider.cs" />
-    <Compile Include="TIleProviders\ITileProviderFactory.cs" />
+    <Compile Include="TileRepositories\Impl\AttendeeFileListTileRepository.cs" />
+    <Compile Include="TileRepositories\Impl\AttendeeMeetupComTileRepository.cs" />
+    <Compile Include="TileRepositories\Impl\AttendeeZoomTileRepository.cs" />
+    <Compile Include="TileRepositories\Impl\TileRepositoryFactory.cs" />
+    <Compile Include="TileRepositories\ITileRepository.cs" />
+    <Compile Include="TileRepositories\ITileRepositoryFactory.cs" />
     <Compile Include="TileUserControl.xaml.cs">
       <DependentUpon>TileUserControl.xaml</DependentUpon>
     </Compile>

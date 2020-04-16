@@ -8,9 +8,9 @@ using System.Windows.Media;
 using PrizeDraw.ViewModels;
 using RandomColorGenerator;
 
-namespace PrizeDraw.TIleProviders.Impl
+namespace PrizeDraw.TileRepositories.Impl
 {
-    public class AttendeeFileListTileProvider : ITileProvider
+    public class AttendeeFileListTileRepository : ITileRepository
     {
         private static string AppFolder => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PrizeDraw");
         private static string AttendeesFileName => Path.Combine(AppFolder, "Attendees.txt");

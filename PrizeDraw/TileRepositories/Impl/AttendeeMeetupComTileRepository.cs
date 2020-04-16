@@ -9,14 +9,14 @@ using PrizeDraw.Helpers;
 using PrizeDraw.Models.MeetupCom.Rsvps;
 using PrizeDraw.ViewModels;
 
-namespace PrizeDraw.TIleProviders.Impl
+namespace PrizeDraw.TileRepositories.Impl
 {
-    public class AttendeeMeetupComTileProvider : ITileProvider
+    public class AttendeeMeetupComTileRepository : ITileRepository
     {
         private readonly IMeetupComHelper _meetupComHelper;
         private readonly string _eventId;
 
-        public AttendeeMeetupComTileProvider(string eventId, IMeetupComHelper meetupComHelper)
+        public AttendeeMeetupComTileRepository(string eventId, IMeetupComHelper meetupComHelper)
         {
             _eventId = eventId;
             _meetupComHelper = meetupComHelper;

@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using PrizeDraw.Helpers;
-using PrizeDraw.TIleProviders;
-using PrizeDraw.TIleProviders.Impl;
+using PrizeDraw.TileRepositories;
+using PrizeDraw.TileRepositories.Impl;
 
 namespace PrizeDraw.Tests
 {
@@ -11,7 +11,7 @@ namespace PrizeDraw.Tests
         {
             var builder = new ContainerBuilder();
 
-            builder.RegisterType<TileProviderFactory>().As<ITileProviderFactory>().SingleInstance();
+            builder.RegisterType<TileRepositoryFactory>().As<ITileRepositoryFactory>().SingleInstance();
             builder.RegisterType<MeetupComHelper>().As<IMeetupComHelper>();
 
             return builder.Build();
