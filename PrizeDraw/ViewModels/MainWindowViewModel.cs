@@ -68,6 +68,8 @@ namespace PrizeDraw.ViewModels
             }
         }
 
+        public string ForceZoomMeetingId { get; set; }
+
         private readonly Timer _timer;
         private DateTimeOffset _slowdownStartTime;
 
@@ -82,7 +84,12 @@ namespace PrizeDraw.ViewModels
 
         public async Task InitAsync()
         {
-            PopulateTiles(await _tileRepositoryFactory.CreateFileTileRepository().GetTilesAsync());
+            var tileProvider = ForceZoomMeetingId != null
+                ? _tileRepositoryFactory.CreateZoomTileRepository(ForceZoomMeetingId)
+                : _tileRepositoryFactory.CreateFileTileRepository();
+
+            PopulateTiles(await tileProvider.GetTilesAsync());
+
             _timer.Elapsed += (sender, e) => HandleTimer();
         }
 

@@ -31,16 +31,28 @@ namespace PrizeDraw
             InitializeComponent();
         }
 
-        protected override async void OnInitialized(EventArgs e)
+        protected override void OnInitialized(EventArgs e)
         {
-            await _viewModel.InitAsync();
-
-            InitialiseGrid();
-
             KeyDown += MainWindow_KeyDown;
             _viewModel.OnWinnerSelected += OnWinnerSelected;
 
             base.OnInitialized(e);
+        }
+
+        private static bool _isFirstActivate = true;
+
+        protected override async void OnActivated(EventArgs e)
+        {
+            if (_isFirstActivate)
+            {
+                _isFirstActivate = false;
+
+                await _viewModel.InitAsync();
+
+                InitialiseGrid();
+            }
+
+            base.OnActivated(e);
         }
 
         private void OnWinnerSelected(object sender, WinnerSelectedEventArgs eventArgs)

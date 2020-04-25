@@ -13,8 +13,8 @@ namespace PrizeDraw
         {
             var builder = new ContainerBuilder();
 
-            builder.RegisterType<MainWindow>();
-            builder.RegisterType<MainWindowViewModel>();
+            builder.RegisterType<MainWindow>().SingleInstance();
+            builder.RegisterType<MainWindowViewModel>().SingleInstance();
 
             builder.RegisterType<MeetupComSyncDialog>().As<IMeetupComSyncDialog>();
             builder.RegisterType<MeetupDotComSync>();
