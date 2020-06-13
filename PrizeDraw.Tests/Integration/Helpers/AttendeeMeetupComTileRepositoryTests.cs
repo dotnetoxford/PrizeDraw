@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Autofac;
+using FluentAssertions;
 using NUnit.Framework;
 using PrizeDraw.TileRepositories;
 
@@ -18,7 +19,7 @@ namespace PrizeDraw.Tests.Integration.Helpers
             var sut = factory.CreateMeetupComTileRepository("242414971");
             var tiles = await sut.GetTilesAsync();
 
-            Assert.That(tiles.Count, Is.GreaterThan(0));
+            tiles.Count.Should().BeGreaterThan(0);
         }
     }
 }
