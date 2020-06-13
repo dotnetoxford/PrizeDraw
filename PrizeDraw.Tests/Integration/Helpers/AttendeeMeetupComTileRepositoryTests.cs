@@ -1,15 +1,14 @@
 ﻿using System.Threading.Tasks;
 using Autofac;
 using FluentAssertions;
-using NUnit.Framework;
 using PrizeDraw.TileRepositories;
+using Xunit;
 
 namespace PrizeDraw.Tests.Integration.Helpers
 {
-    [TestFixture, Category("Integration")]
     public class AttendeeMeetupComTileRepositoryTests
     {
-        [Test]
+        [Fact]
         public async Task GivenAMeetupEventId_WithRSVPs_ThenResultsShouldHaveValues()
         {
             var container = TestBootstrapper.Init();
