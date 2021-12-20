@@ -11,4 +11,5 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
 COPY --from=build /src/bin/Release/net6.0/publish .
 EXPOSE 80
+ENV Logging__Console__FormatterName=
 ENTRYPOINT dotnet PrizeDraw.ZoomWebhook.Api.dll
