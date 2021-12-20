@@ -1,0 +1,15 @@
+﻿{
+  "profiles": {
+    "PrizeDraw.ZoomWebhook.Api": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "https://localhost:7095;http://localhost:5197",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "StorageConnectionString": "",
+        "AuthCode": "test-auth-code"
+      }
+    }
+  }
+}

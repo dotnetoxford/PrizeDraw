@@ -1,15 +1,17 @@
-using System;
-using Microsoft.WindowsAzure.Storage.Table;
+using Azure;
+using Azure.Data.Tables;
 
-namespace PrizeDraw.ZoomFunctions.Models
+namespace PrizeDraw.ZoomWebhook.Api.Models
 {
-    public class Attendee : TableEntity
+    public class Attendee : ITableEntity
     {
-        public Attendee(string meetingId)
-        {
-            PartitionKey = meetingId;
-            RowKey = Guid.NewGuid().ToString();
-        }
+        // ITableEntity properties...
+        public string PartitionKey { get; set; }
+        public string RowKey { get; set; }
+        public DateTimeOffset? Timestamp { get; set; }
+        public ETag ETag { get; set; }
+
+        // Our properties...
 
         public int Type { get; set; }
         public string MeetingUuid { get; set; }

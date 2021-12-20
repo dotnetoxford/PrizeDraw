@@ -1,0 +1,63 @@
+parameters:
+  - name: environment
+    type: string
+  - name: tag
+    type: string
+  - name: name
+    type: string
+  - name: keyVaultUri
+    type: string
+  - name: managedIdentityResourceId
+    type: string
+  - name: managedIdentityClientId
+    type: string
+
+stages:
+  - stage: Deploy_${{ parameters['environment'] }}
+    displayName: Deploy stage
+    jobs:
+      - deployment: Deploy
+        displayName: Deploy
+        environment: ${{ parameters['environment'] }}
+        pool:
+          vmImage: ubuntu-latest
+
+        strategy:
+          runOnce:
+            deploy:
+
+              steps:
+                - download: current
+                  displayName: "Download HelmChart artifact"
+                  artifact: HelmChart
+
+                - task: HelmInstaller@0
+                  inputs:
+                    helmVersion:
+                    installKubectl: true
+
+                - task: AzureCLI@2
+                  displayName: Install Helm Chart
+                  inputs:
+                    azureSubscription: "$(azureServicePrincipal)"
+                    scriptType: bash
+                    scriptLocation: inlineScript
+                    inlineScript: |
+                      echo 'get credentials...'
+                      az aks get-credentials --resource-group k8s-cluster --name k8s-cluster --admin
+
+                      if [ $? -ne 0 ]; then
+                        exit 1
+                      fi
+
+                      echo 'helm upgrade...'
+                      helm upgrade \
+                        --install \
+                        --namespace dotnetoxford-prizedraw \
+                        --create-namespace \
+                        --set image.tag=${{ parameters['tag'] }} \
+                        --set config.keyVaultUri=${{ parameters['keyVaultUri'] }} \
+                        --set managedIdentity.resourceId=${{ parameters['managedIdentityResourceId'] }} \
+                        --set managedIdentity.clientId=${{ parameters['managedIdentityClientId'] }} \
+                        ${{ parameters['name'] }} \
+                        $(Pipeline.Workspace)/HelmChart/.

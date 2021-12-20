@@ -1,0 +1,15 @@
+hostname: prizedraw-zoom.dotnetoxford.com
+healthChecks:
+  enabled: false
+  readinessRoute: TODO
+useAcrSecret: false
+image:
+  name: dracan/prizedraw-zoomwebhook
+  tag: 0
+config:
+  keyVaultUri: PLACEHOLDER
+managedIdentity:
+  enabled: PLACEHOLDER # True when in Azure, false when local
+  name: dno-prizedraw-identity # k8s name, nothing in Azure itself
+  resourceId: PLACEHOLDER
+  clientId: PLACEHOLDER

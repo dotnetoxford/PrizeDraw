@@ -1,6 +1,4 @@
-using System;
-
-namespace PrizeDraw.ZoomFunctions.Models
+namespace PrizeDraw.ZoomWebhook.Api.Models
 {
     public class ParticipantJoinedAndLeftEventData
     {

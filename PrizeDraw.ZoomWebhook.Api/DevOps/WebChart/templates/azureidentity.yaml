@@ -1,0 +1,23 @@
+{{ if .Values.managedIdentity.enabled }}
+
+apiVersion: "aadpodidentity.k8s.io/v1"
+kind: AzureIdentity
+metadata:
+  name: {{ .Values.managedIdentity.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  type: 0
+  resourceID: {{ .Values.managedIdentity.resourceId }}
+  clientID: {{ .Values.managedIdentity.clientId }}
+
+---
+
+apiVersion: "aadpodidentity.k8s.io/v1"
+kind: AzureIdentityBinding
+metadata:
+  name: {{ .Values.managedIdentity.name }}-binding
+spec:
+  azureIdentity: {{ .Values.managedIdentity.name }}
+  selector: {{ .Values.managedIdentity.name }}
+
+{{ end }}

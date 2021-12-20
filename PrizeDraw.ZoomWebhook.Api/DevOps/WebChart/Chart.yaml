@@ -1,0 +1,6 @@
+apiVersion: v2
+name: dno-prizedraw-zoomapi
+description: Zoom Webhook for PrizeDraw app
+type: application
+version: 0.1.0
+appVersion: "1.1.0"

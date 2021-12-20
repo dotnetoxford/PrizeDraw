@@ -1,0 +1,46 @@
+parameters:
+  - name: dockerFile
+    type: string
+  - name: dockerRepository
+    type: string
+  - name: buildContext
+    type: string
+  - name: helmChartPath
+    type: string
+
+stages:
+  - stage: Build
+    displayName: Build stage
+    jobs:
+      - job: Build
+        displayName: Build
+        pool:
+          vmImage: ubuntu-latest
+
+        steps:
+          - task: Docker@2
+            displayName: Login to ACR
+            inputs:
+              command: login
+              containerRegistry: docker hub (dracan)
+
+          - task: Docker@2
+            displayName: 'Build image'
+            inputs:
+              command: build
+              repository: ${{ parameters['dockerRepository'] }}
+              # tags: // not required, as defaults to 'Build.BuildId'
+              dockerFile: ${{ parameters['dockerFile'] }}
+              buildContext: ${{ parameters['buildContext'] }}
+              arguments: --network host
+
+          - task: Docker@2
+            displayName: 'Push image'
+            inputs:
+              command: push
+              containerRegistry: docker hub (dracan)
+              repository: ${{ parameters['dockerRepository'] }}
+
+          - publish: ${{ parameters['helmChartPath'] }}
+            displayName: "Publish Helm Chart"
+            artifact: HelmChart

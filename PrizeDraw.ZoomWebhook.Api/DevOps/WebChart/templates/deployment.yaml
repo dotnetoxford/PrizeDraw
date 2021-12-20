@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+        {{ if .Values.managedIdentity.enabled }}
+        aadpodidbinding: {{ .Values.managedIdentity.name }}
+        {{ end }}
+    spec:
+      containers:
+      - name: web
+        image: {{ .Values.image.name }}:{{ .Values.image.tag }}
+        {{ if (.Values.healthChecks).enabled }}
+        readinessProbe:
+          httpGet:
+            path: {{ .Values.healthChecks.readinessRoute }}
+            port: 80
+          initialDelaySeconds: 0
+          periodSeconds: 10
+        {{ end }}
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "50m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+        envFrom:
+        - configMapRef:
+            name: web
+      nodeSelector:
+        kubernetes.io/os: linux
+      {{ if .Values.useAcrSecret }}
+      imagePullSecrets:
+      - name: acr-secret
+      {{ end }}
