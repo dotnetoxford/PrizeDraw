@@ -14,6 +14,9 @@ var keyVaultUri = builder.Configuration["KeyVaultUri"];
 if (!string.IsNullOrWhiteSpace(keyVaultUri))
     builder.Configuration.AddAzureKeyVault(keyVaultUri, new DefaultKeyVaultSecretManager());
 
+builder.Services.AddApplicationInsightsTelemetry();
+builder.Logging.AddApplicationInsights();
+
 var app = builder.Build();
 
 app.MapPost("/", async (ParticipantJoinedAndLeftEventData data, [FromQuery]string authCode, ILogger<Program> logger, IOptions<Settings> settings) =>

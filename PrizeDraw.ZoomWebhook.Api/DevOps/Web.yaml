@@ -24,6 +24,7 @@ stages:
       environment: uat
       tag: $(Build.BuildId)
       name: web
+      appInsightsInstrumentationKey: $(appInsightsInstrumentationKey)
       keyVaultUri: $(keyVaultUri)
       managedIdentityResourceId: $(managedIdentityResourceId)
       managedIdentityClientId: $(managedIdentityClientId)

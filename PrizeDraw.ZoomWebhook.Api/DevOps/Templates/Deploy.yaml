@@ -11,6 +11,8 @@ parameters:
     type: string
   - name: managedIdentityClientId
     type: string
+  - name: appInsightsInstrumentationKey
+    type: string
 
 stages:
   - stage: Deploy_${{ parameters['environment'] }}
@@ -56,6 +58,7 @@ stages:
                         --namespace dotnetoxford-prizedraw \
                         --create-namespace \
                         --set image.tag=${{ parameters['tag'] }} \
+                        --set config.appInsightsInstrumentationKey=${{ parameters['appInsightsInstrumentationKey'] }} \
                         --set config.keyVaultUri=${{ parameters['keyVaultUri'] }} \
                         --set managedIdentity.resourceId=${{ parameters['managedIdentityResourceId'] }} \
                         --set managedIdentity.clientId=${{ parameters['managedIdentityClientId'] }} \

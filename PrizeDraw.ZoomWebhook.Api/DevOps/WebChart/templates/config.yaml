@@ -4,5 +4,6 @@ metadata:
   name: web
   namespace: {{ .Release.Namespace }}
 data:
+  APPINSIGHTS_INSTRUMENTATIONKEY: {{ .Values.config.appInsightsInstrumentationKey | quote }}
   ASPNETCORE_ENVIRONMENT: 'Production'
   KeyVaultUri: {{ .Values.config.keyVaultUri | quote }}

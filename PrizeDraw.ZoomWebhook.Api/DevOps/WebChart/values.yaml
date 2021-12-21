@@ -7,6 +7,7 @@ image:
   name: dracan/prizedraw-zoomwebhook
   tag: 0
 config:
+  appInsightsInstrumentationKey: PLACEHOLDER
   keyVaultUri: PLACEHOLDER
 managedIdentity:
   enabled: PLACEHOLDER # True when in Azure, false when local
