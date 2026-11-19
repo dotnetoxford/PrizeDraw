@@ -23,10 +23,10 @@ jobs:
       id-token: write
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
 
     - name: Azure login
-      uses: azure/login@v1.4.3
+      uses: azure/login@v3
       with:
         creds: ${{ secrets.AZURE_CREDS }}
 
@@ -42,15 +42,15 @@ jobs:
     runs-on: ubuntu-latest
     needs: [buildImage]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
 
     - name: Azure login
-      uses: azure/login@v1.4.3
+      uses: azure/login@v3
       with:
         creds: ${{ secrets.AZURE_CREDS }}
 
     - name: Set K8s context
-      uses: azure/aks-set-context@v2.0
+      uses: azure/aks-set-context@v5
       with:
         resource-group: ${{ secrets.AKS_RESOURCE_GROUP }}
         cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}
@@ -65,7 +65,5 @@ jobs:
           --set image.name=${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.IMAGE_NAME }} \
           --set config.keyVaultUri=${{ secrets.KEYVAULTURI }} \
           --set config.appInsightsInstrumentationKey=${{ secrets.APPINSIGHTS_INSTRUMENTATION_KEY }} \
-          --set managedIdentity.resourceId=${{ secrets.MANAGED_IDENTITY_RESOURCE_ID }} \
-          --set managedIdentity.clientId=${{ secrets.MANAGED_IDENTITY_CLIENT_ID }} \
           ${{ env.HELM_RELEASE_NAME }} \
           ${{ env.CHART_PATH }}

@@ -1,7 +1,7 @@
 using System.Text.Json;
 using Azure.Data.Tables;
+using Azure.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration.AzureKeyVault;
 using Microsoft.Extensions.Options;
 using PrizeDraw.ZoomWebhook.Api.Models;
 
@@ -12,7 +12,7 @@ builder.Services.Configure<Settings>(builder.Configuration);
 var keyVaultUri = builder.Configuration["KeyVaultUri"];
 
 if (!string.IsNullOrWhiteSpace(keyVaultUri))
-    builder.Configuration.AddAzureKeyVault(keyVaultUri, new DefaultKeyVaultSecretManager());
+    builder.Configuration.AddAzureKeyVault(new Uri(keyVaultUri), new DefaultAzureCredential());
 
 builder.Services.AddApplicationInsightsTelemetry();
 builder.Logging.AddApplicationInsights();

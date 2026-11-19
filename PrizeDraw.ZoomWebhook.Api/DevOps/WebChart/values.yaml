@@ -9,8 +9,8 @@ image:
 config:
   appInsightsInstrumentationKey: PLACEHOLDER
   keyVaultUri: PLACEHOLDER
-managedIdentity:
-  enabled: PLACEHOLDER # True when in Azure, false when local
-  name: dno-prizedraw-identity # k8s name, nothing in Azure itself
-  resourceId: PLACEHOLDER
-  clientId: PLACEHOLDER
+workloadIdentity:
+  enabled: true # Set false when running outside AKS (e.g. local cluster)
+  # Client ID of the user-assigned managed identity id-dno-prizedraw (not a secret).
+  # It has a federated credential trusting system:serviceaccount:dotnetoxford-prizedraw:web.
+  clientId: 4ee08a0a-6538-482a-b373-64ccee1bdbcb
